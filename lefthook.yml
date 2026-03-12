@@ -1,0 +1,27 @@
+pre-commit:
+  parallel: true
+  commands:
+    typecheck:
+      run: npx tsc --noEmit
+
+    lint:
+      glob: "*.{ts,tsx}"
+      run: npx eslint .
+
+    check-todos:
+      glob: "*.{ts,tsx}"
+      run: |
+        if grep -Hn "TODO\|FIXME" {staged_files} 2>/dev/null; then
+          echo "Warning: TODO/FIXME comments found in staged files"
+        fi
+
+pre-push:
+  parallel: false
+  commands:
+    typecheck:
+      run: npx tsc --noEmit
+      priority: 1
+
+    build:
+      run: npm run build
+      priority: 2
