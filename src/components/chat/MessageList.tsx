@@ -29,6 +29,15 @@ export function MessageList({
 }: MessageListProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
+  // Check if the last assistant message already has visible text.
+  // While loading, we show the typing indicator until text starts arriving.
+  const lastMessage = messages[messages.length - 1];
+  const hasAssistantText =
+    lastMessage?.role === "assistant" &&
+    lastMessage.parts.some(
+      (p) => p.type === "text" && p.text.length > 0
+    );
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isLoading]);
@@ -67,12 +76,12 @@ export function MessageList({
   }
 
   return (
-    <ScrollArea className="flex-1 px-6 py-4">
+    <ScrollArea className="flex-1 min-h-0 px-6 py-4" role="log" aria-live="polite">
       <div className="space-y-4">
         {messages.map((message) => (
           <MessageBubble key={message.id} message={message} />
         ))}
-        {isLoading && messages[messages.length - 1]?.role !== "assistant" && (
+        {isLoading && !hasAssistantText && (
           <div className="flex gap-3">
             <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-roxy/15 ring-1 ring-roxy/25 shrink-0">
               <Sparkles className="w-4 h-4 text-roxy" />
