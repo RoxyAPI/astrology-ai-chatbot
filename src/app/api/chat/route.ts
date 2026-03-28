@@ -20,7 +20,7 @@ import {
 } from "ai";
 import { getModel } from "@/lib/ai";
 import { getMCPTools } from "@/lib/mcp";
-import { SYSTEM_PROMPT } from "@/lib/prompts";
+import { getSystemPrompt } from "@/lib/prompts";
 
 export const maxDuration = 60;
 
@@ -108,7 +108,7 @@ export async function POST(req: Request) {
 
     const result = streamText({
       model: getModel(),
-      system: SYSTEM_PROMPT,
+      system: getSystemPrompt(),
       messages: await convertToModelMessages(messages),
       tools,
       stopWhen: stepCountIs(MAX_TOOL_STEPS),
