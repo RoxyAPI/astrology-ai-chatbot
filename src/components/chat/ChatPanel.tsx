@@ -2,15 +2,19 @@
 
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { MessageList } from "./MessageList";
 import { MessageInput } from "./MessageInput";
 import { Sparkles } from "lucide-react";
 
-const transport = new DefaultChatTransport({ api: "/api/chat" });
-
 export function ChatPanel() {
   const [input, setInput] = useState("");
+  // Memoize transport per component instance to avoid sharing state across
+  // React 19 strict-mode double-mounts and to avoid stale closures on HMR.
+  const transport = useMemo(
+    () => new DefaultChatTransport({ api: "/api/chat" }),
+    [],
+  );
   const { messages, sendMessage, stop, status } = useChat({ transport });
 
   const isActive = status === "submitted" || status === "streaming";
@@ -31,10 +35,10 @@ export function ChatPanel() {
         </div>
         <div>
           <h1 className="text-lg font-semibold text-zinc-100">
-            Insight AI
+            AI Astrology Chatbot
           </h1>
           <p className="text-sm text-zinc-500">
-            Horoscopes, Tarot, Numerology, Astrology & More
+            Western · Vedic · Tarot · Numerology · Biorhythm · I Ching · Dreams · Crystals
           </p>
         </div>
       </header>

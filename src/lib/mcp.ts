@@ -14,7 +14,7 @@
  *
  * @example
  *   // .env — enable only tarot and astrology
- *   ROXYAPI_PRODUCTS=tarot-api,astrology-api
+ *   ROXYAPI_PRODUCTS=tarot,astrology
  *
  * @see https://roxyapi.com/docs       — RoxyAPI documentation
  * @see https://modelcontextprotocol.io — MCP specification
@@ -39,22 +39,31 @@ if (!API_KEY) {
 
 /**
  * Full catalogue of RoxyAPI MCP products.
+ * Slugs are the canonical short form mounted at /mcp/{slug}.
  * Override at runtime with the ROXYAPI_PRODUCTS env var.
  */
 const DEFAULT_PRODUCTS = [
-  "astrology-api",
-  "vedic-astrology-api",
-  "tarot-api",
-  "numerology-api",
-  "crystals-api",
-  "angel-numbers-api",
-  "iching-api",
-  "dreams-api",
+  "astrology",
+  "vedic-astrology",
+  "tarot",
+  "numerology",
+  "biorhythm",
+  "crystals",
+  "angel-numbers",
+  "iching",
+  "dreams",
+  // Geocoding utility — lets the model resolve "born in London" to
+  // latitude, longitude, and timezone before calling any chart endpoint.
+  // Without this, chart calls require the user to type coordinates by hand.
+  "location",
 ];
 
-const PRODUCTS: string[] = process.env.ROXYAPI_PRODUCTS
+// Strip legacy "-api" suffix so env vars set with the old slug form
+// (e.g. ROXYAPI_PRODUCTS=tarot-api,astrology-api) keep working.
+const PRODUCTS: string[] = (process.env.ROXYAPI_PRODUCTS
   ? process.env.ROXYAPI_PRODUCTS.split(",").map((s) => s.trim()).filter(Boolean)
-  : DEFAULT_PRODUCTS;
+  : DEFAULT_PRODUCTS
+).map((slug) => slug.replace(/-api$/, ""));
 
 /* ------------------------------------------------------------------ */
 /*  Singleton cache                                                    */

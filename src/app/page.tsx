@@ -1,14 +1,16 @@
 import { ChatPanel } from "@/components/chat";
+import { SetupRequired } from "@/components/SetupRequired";
+import { getEnvStatus } from "@/lib/env";
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "WebApplication",
-      "name": "Insight AI - Free AI Horoscope, Tarot Reading & Astrology Chatbot",
-      "url": "https://insight.roxyapi.com",
+      "name": "AI Astrology Chatbot — Western, Vedic, Tarot & More",
+      "url": "https://github.com/RoxyAPI/astrology-ai-chatbot",
       "description":
-        "Free AI astrology chatbot powered by real astronomical calculations, not AI hallucinations. Get daily horoscopes for all zodiac signs, tarot card readings, numerology life path calculations, birth chart analysis, crystal healing guidance, Vedic astrology (Kundli), I-Ching wisdom, angel number meanings, and dream interpretation. Every reading is computed from verified data, then interpreted by AI. Multilingual.",
+        "Open source AI astrology chatbot powered by real astronomical calculations, not AI hallucinations. Western birth charts, Vedic kundli (Janam Kundli, Vimshottari Dasha, Gun Milan, Panchang, doshas, KP), tarot spreads, numerology, biorhythm, I-Ching, dreams, crystals, and angel numbers. Every reading is computed from verified data, then interpreted by an LLM. Multilingual. Backed by RoxyAPI's 130+ MCP tools verified against NASA JPL Horizons.",
       "applicationCategory": "LifestyleApplication",
       "operatingSystem": "Web",
       "inLanguage": ["en", "hi", "es", "fr", "de", "pt", "ja", "zh"],
@@ -90,7 +92,7 @@ const jsonLd = {
           "name": "Are AI horoscope and astrology readings accurate?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Most AI astrology chatbots simply make up readings using language models. Insight AI is different: every planetary position, birth chart, and horoscope is computed from real astronomical ephemeris data using verified mathematical engines. The AI then interprets the real calculated data, rather than hallucinating it. This means your birth chart shows actual planet positions at your time of birth, not fabricated ones.",
+            "text": "Most AI astrology chatbots simply make up readings using language models. This chatbot is different: every planetary position, birth chart, and horoscope is computed from real astronomical ephemeris data using verified mathematical engines, then interpreted by an LLM. Calculations are verified against NASA JPL Horizons. Your birth chart shows actual planet positions at your time of birth, not fabricated ones.",
           },
         },
       ],
@@ -99,13 +101,15 @@ const jsonLd = {
 };
 
 export default function Home() {
+  const env = getEnvStatus();
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ChatPanel />
+      {env.ok ? <ChatPanel /> : <SetupRequired status={env} />}
     </>
   );
 }
