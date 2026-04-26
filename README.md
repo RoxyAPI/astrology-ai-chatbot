@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://roxyapi.com">
+    <img src="https://raw.githubusercontent.com/RoxyAPI/astrology-ai-chatbot/main/assets/hero.png" alt="Open source AI astrology chatbot starter. Real calculations, multi-MCP, multi-LLM, MIT licensed." width="100%">
+  </a>
+</p>
+
 # AI Astrology Chatbot — Western, Vedic, Tarot & More
 
 > Open source AI chatbot that runs real Western astrology, Vedic kundli, tarot, numerology, biorhythm, I Ching, crystals, dreams, and angel numbers calculations. Powered by [RoxyAPI](https://roxyapi.com), not LLM hallucinations.
