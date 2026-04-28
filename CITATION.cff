@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "RoxyAPI Astrology AI Chatbot"
+abstract: "Open source multi-MCP astrology assistant. Western birth charts, Vedic kundli, tarot, numerology, biorhythm, I Ching, dreams, crystals, angel numbers backed by NASA JPL Horizons verified calculations."
+authors:
+  - name: "RoxyAPI"
+url: "https://github.com/RoxyAPI/astrology-ai-chatbot"
+repository-code: "https://github.com/RoxyAPI/astrology-ai-chatbot"
+license: MIT
+type: software
+keywords:
+  - mcp
+  - model-context-protocol
+  - astrology
+  - chatbot
+  - ai-agents
+  - nextjs
+  - vercel-ai-sdk
