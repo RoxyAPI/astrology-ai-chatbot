@@ -6,7 +6,7 @@
 
 # AI Astrology Chatbot — Western, Vedic, Tarot & More
 
-> Open source AI chatbot that runs real Western astrology, Vedic kundli, tarot, numerology, biorhythm, I Ching, crystals, dreams, and angel numbers calculations. Powered by [RoxyAPI](https://roxyapi.com), not LLM hallucinations.
+> Open source AI chatbot that runs real Western astrology, Vedic kundli, numerology, tarot, biorhythm, I Ching, crystals, dreams, and angel numbers calculations. Powered by [RoxyAPI](https://roxyapi.com), not LLM hallucinations.
 
 [![Get API Key](https://img.shields.io/badge/Get_API_Key-RoxyAPI-14b8a6?style=for-the-badge&logo=key&logoColor=white)](https://roxyapi.com/pricing)
 [![Try the API live](https://img.shields.io/badge/Try_API_Live-Free_in_browser-22c55e?style=for-the-badge&logo=swagger&logoColor=white)](https://roxyapi.com/api-reference)
