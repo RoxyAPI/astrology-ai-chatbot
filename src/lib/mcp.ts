@@ -42,7 +42,7 @@ if (!API_KEY) {
  * Slugs are the canonical short form mounted at /mcp/{slug}.
  * Override at runtime with the ROXYAPI_PRODUCTS env var.
  */
-const DEFAULT_PRODUCTS = [
+export const DEFAULT_PRODUCTS = [
   "astrology",
   "vedic-astrology",
   "tarot",
@@ -58,12 +58,22 @@ const DEFAULT_PRODUCTS = [
   "location",
 ];
 
-// Strip legacy "-api" suffix so env vars set with the old slug form
-// (e.g. ROXYAPI_PRODUCTS=tarot-api,astrology-api) keep working.
-const PRODUCTS: string[] = (process.env.ROXYAPI_PRODUCTS
-  ? process.env.ROXYAPI_PRODUCTS.split(",").map((s) => s.trim()).filter(Boolean)
-  : DEFAULT_PRODUCTS
-).map((slug) => slug.replace(/-api$/, ""));
+/**
+ * Resolves the product slugs whose MCP servers this app connects to.
+ *
+ * @remarks
+ * Parses a comma list (typically `process.env.ROXYAPI_PRODUCTS`), trimming blanks and falling back to {@link DEFAULT_PRODUCTS} when nothing usable is supplied. The legacy `-api` suffix is stripped so env vars set with the old slug form keep resolving to the canonical `/mcp/{slug}` mount.
+ *
+ * @example
+ *   resolveProducts("tarot-api, astrology") // ["tarot", "astrology"]
+ */
+export function resolveProducts(raw?: string): string[] {
+  const requested = raw?.split(",").map((s) => s.trim()).filter(Boolean);
+  const slugs = requested?.length ? requested : DEFAULT_PRODUCTS;
+  return slugs.map((slug) => slug.replace(/-api$/, ""));
+}
+
+const PRODUCTS = resolveProducts(process.env.ROXYAPI_PRODUCTS);
 
 /* ------------------------------------------------------------------ */
 /*  Singleton cache                                                    */

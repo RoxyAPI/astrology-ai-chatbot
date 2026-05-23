@@ -175,7 +175,6 @@ Key design decisions:
 | Data | [RoxyAPI](https://roxyapi.com) — 130+ tools, 9 spiritual domains plus location, native [MCP](https://roxyapi.com/docs/mcp) |
 | Tool Discovery | [MCP](https://modelcontextprotocol.io) via `@ai-sdk/mcp` — auto-discovers tools at runtime |
 | UI | [Tailwind CSS v4](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com) + custom space theme |
-| Types | [openapi-typescript](https://openapi-ts.dev) — generated from RoxyAPI OpenAPI spec |
 | SEO | Server-rendered JSON-LD (schema.org), Open Graph, keyword meta tags |
 
 ## Customize
@@ -185,8 +184,6 @@ Key design decisions:
 **Which domains** — set the `ROXYAPI_PRODUCTS` env var, or edit the product list in [`src/lib/mcp.ts`](src/lib/mcp.ts).
 
 **UI theme** — components are in [`src/components/chat/`](src/components/chat/). Star field, colors, and glass effects are in [`globals.css`](src/app/globals.css). Everything is Tailwind — no CSS-in-JS.
-
-**API types** — run `npm run generate:types` to regenerate TypeScript types from the latest [RoxyAPI OpenAPI spec](https://roxyapi.com/api-reference).
 
 **Tool step limit** — set `MAX_TOOL_STEPS` in your env to control how many tool-call round-trips the LLM can make per message (default: 5).
 
