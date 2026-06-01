@@ -20,9 +20,9 @@ Ships with auto-discovered remote MCP tools, multi-provider LLM support (Gemini,
 
 **Clone. Add keys. Deploy. Live AI astrology chatbot in 30 minutes.**
 
-![AI Astrology Chatbot — Empty State](screenshots/screenshot-01.png)
+![AI Astrology Chatbot — Empty State](https://raw.githubusercontent.com/RoxyAPI/astrology-ai-chatbot/main/screenshots/screenshot-01.png)
 
-![AI Astrology Chatbot — Vedic Birth Chart Response](screenshots/screenshot-02.png)
+![AI Astrology Chatbot — Vedic Birth Chart Response](https://raw.githubusercontent.com/RoxyAPI/astrology-ai-chatbot/main/screenshots/screenshot-02.png)
 
 ## Why This Exists
 
@@ -181,11 +181,11 @@ Key design decisions:
 
 ## Customize
 
-**AI personality** — edit [`src/lib/prompts.ts`](src/lib/prompts.ts). Make it mystical, clinical, casual, or match your brand.
+**AI personality** — edit [`src/lib/prompts.ts`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/lib/prompts.ts). Make it mystical, clinical, casual, or match your brand.
 
-**Which domains** — set the `ROXYAPI_PRODUCTS` env var, or edit the product list in [`src/lib/mcp.ts`](src/lib/mcp.ts).
+**Which domains** — set the `ROXYAPI_PRODUCTS` env var, or edit the product list in [`src/lib/mcp.ts`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/lib/mcp.ts).
 
-**UI theme** — components are in [`src/components/chat/`](src/components/chat/). Star field, colors, and glass effects are in [`globals.css`](src/app/globals.css). Everything is Tailwind — no CSS-in-JS.
+**UI theme** — components are in [`src/components/chat/`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/components/chat/). Star field, colors, and glass effects are in [`globals.css`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/app/globals.css). Everything is Tailwind — no CSS-in-JS.
 
 **Tool step limit** — set `MAX_TOOL_STEPS` in your env to control how many tool-call round-trips the LLM can make per message (default: 5).
 
@@ -236,7 +236,7 @@ This is almost always caused by MCP initialization timing out. The default `maxD
 
 ### Can I use this with my own MCP server?
 
-Yes. Edit [`src/lib/mcp.ts`](src/lib/mcp.ts) — the `PRODUCTS` array and `MCP_BASE` URL are all you need to change. The caching and connection logic works with any Streamable HTTP MCP server.
+Yes. Edit [`src/lib/mcp.ts`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/lib/mcp.ts) — the `PRODUCTS` array and `MCP_BASE` URL are all you need to change. The caching and connection logic works with any Streamable HTTP MCP server.
 
 ### Do MCP connections stay open forever?
 
@@ -248,7 +248,7 @@ The first request after a deploy (or after your server has been idle for a while
 
 ### How do I change the AI personality?
 
-Edit the system prompt in [`src/lib/prompts.ts`](src/lib/prompts.ts). The default personality is a warm, knowledgeable spiritual advisor. You can make it more mystical, clinical, casual, or match your brand voice.
+Edit the system prompt in [`src/lib/prompts.ts`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/lib/prompts.ts). The default personality is a warm, knowledgeable spiritual advisor. You can make it more mystical, clinical, casual, or match your brand voice.
 
 ### Can I disable specific product domains?
 
