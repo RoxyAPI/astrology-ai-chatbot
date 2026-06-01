@@ -1,6 +1,6 @@
 # Agents Guide
 
-This is the RoxyAPI flagship demo, an open source AI astrology chatbot built with Next.js 16 and the Vercel AI SDK. It auto discovers remote RoxyAPI MCP servers at runtime, so the LLM has access to roughly 130 verified tools across 9 spiritual domains plus location geocoding without any hardcoded endpoint wiring.
+This is the RoxyAPI flagship demo, an open source AI astrology chatbot built with Next.js 16 and the Vercel AI SDK. It auto discovers remote RoxyAPI MCP servers at runtime, so the LLM has access to roughly 145 verified tools across 11 spiritual domains plus location geocoding without any hardcoded endpoint wiring.
 
 ## Setup
 - Get an API key at https://roxyapi.com/pricing
@@ -21,7 +21,7 @@ This is the RoxyAPI flagship demo, an open source AI astrology chatbot built wit
 
 ## MCP servers used in this app
 - Per product Streamable HTTP MCP servers at `https://roxyapi.com/mcp/{slug}`, for example `/mcp/astrology`, `/mcp/vedic-astrology`, `/mcp/tarot`, `/mcp/numerology`, `/mcp/location`
-- All 10 product slugs are available: `astrology`, `vedic-astrology`, `tarot`, `numerology`, `biorhythm`, `crystals`, `angel-numbers`, `iching`, `dreams`, `location`
+- All 12 product slugs are available: `astrology`, `vedic-astrology`, `tarot`, `numerology`, `human-design`, `forecast`, `biorhythm`, `crystals`, `angel-numbers`, `iching`, `dreams`, `location`
 - Connections are initialized once and cached, so the first request after a deploy takes a second or two and every following request reuses the cached tool list
 
 ## Where to extend

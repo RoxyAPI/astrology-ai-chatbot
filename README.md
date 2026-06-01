@@ -6,7 +6,7 @@
 
 # AI Astrology Chatbot — Western, Vedic, Tarot & More
 
-> Open source AI chatbot that runs real Western astrology, Vedic kundli, numerology, tarot, biorhythm, I Ching, crystals, dreams, and angel numbers calculations. Powered by [RoxyAPI](https://roxyapi.com), not LLM hallucinations.
+> Open source AI chatbot that runs real Western astrology, Vedic kundli, numerology, tarot, Human Design, forecast timelines, biorhythm, I Ching, crystals, dreams, and angel numbers calculations. Powered by [RoxyAPI](https://roxyapi.com), not LLM hallucinations.
 
 [![Get API Key](https://img.shields.io/badge/Get_API_Key-RoxyAPI-14b8a6?style=for-the-badge&logo=key&logoColor=white)](https://roxyapi.com/pricing)
 [![Try the API live](https://img.shields.io/badge/Try_API_Live-Free_in_browser-22c55e?style=for-the-badge&logo=swagger&logoColor=white)](https://roxyapi.com/api-reference)
@@ -26,9 +26,9 @@ Ships with auto-discovered remote MCP tools, multi-provider LLM support (Gemini,
 
 ## Why This Exists
 
-Most AI astrology chatbots hallucinate planet positions, make up tarot spreads, and invent numerology results. This one calls [RoxyAPI's 130+ verified tools](https://roxyapi.com/api-reference) via [MCP](https://roxyapi.com/docs/mcp) (Model Context Protocol), gets real computed data from astronomical ephemeris engines and mathematical models, then has the LLM interpret it. Every birth chart, every tarot draw, every Life Path calculation is backed by actual computation.
+Most AI astrology chatbots hallucinate planet positions, make up tarot spreads, and invent numerology results. This one calls [RoxyAPI's 145+ verified tools](https://roxyapi.com/api-reference) via [MCP](https://roxyapi.com/docs/mcp) (Model Context Protocol), gets real computed data from astronomical ephemeris engines and mathematical models, then has the LLM interpret it. Every birth chart, every tarot draw, every Life Path calculation is backed by actual computation.
 
-**9 spiritual domains plus location geocoding. Auto-discovered tools via MCP. Multilingual. Any LLM.**
+**11 spiritual domains plus location geocoding. Auto-discovered tools via MCP. Multilingual. Any LLM.**
 
 | Domain | What You Can Ask |
 |--------|-----------------|
@@ -36,6 +36,8 @@ Most AI astrology chatbots hallucinate planet positions, make up tarot spreads, 
 | **Vedic Astrology** | Janam Kundli, Vimshottari Dasha, Gun Milan, detailed Panchang, Manglik/Kalsarpa/Sadhesati doshas, KP system, Navamsa |
 | **Numerology** | Life Path, Expression, Soul Urge, Personal Year, full chart, compatibility |
 | **Tarot** | Three-card spreads, Celtic Cross, love spread, daily card, yes/no oracle |
+| **Human Design** | Full bodygraph, energy type, strategy, authority, profile, centers, channels, gate activations, two-person connection, transit overlay |
+| **Forecast** | Cross-domain timeline merging Western transits, Vedic dasha periods, and biorhythm critical days, with significance-scored key dates |
 | **Biorhythm** | Physical, emotional, intellectual cycle charts, multi-day forecasts, critical-day alerts |
 | **I Ching** | Hexagram readings, daily cast, full 64-hexagram catalog with changing lines |
 | **Crystals** | Stones by zodiac, by chakra, birthstones by month, healing properties |
@@ -96,7 +98,7 @@ No prompt-stuffing. No fake data. No hardcoded horoscopes.
 
 ## MCP Tool Discovery
 
-This chatbot uses [Model Context Protocol (MCP)](https://modelcontextprotocol.io) to automatically discover all available tools from [RoxyAPI](https://roxyapi.com) at runtime. No manual endpoint wiring — all 130+ tools across 9 spiritual domains plus location geocoding are ready to use out of the box.
+This chatbot uses [Model Context Protocol (MCP)](https://modelcontextprotocol.io) to automatically discover all available tools from [RoxyAPI](https://roxyapi.com) at runtime. No manual endpoint wiring — all 145+ tools across 11 spiritual domains plus location geocoding are ready to use out of the box.
 
 ### How MCP connections work
 
@@ -104,7 +106,7 @@ MCP connections are initialized **once** and cached automatically. The first req
 
 ### Choosing which products to enable
 
-By default all 10 RoxyAPI products are enabled (~130 tools — 9 spiritual domains plus location for geocoding). To use a subset, set the `ROXYAPI_PRODUCTS` env var:
+By default all 12 RoxyAPI products are enabled (~145 tools across 11 spiritual domains plus location for geocoding). To use a subset, set the `ROXYAPI_PRODUCTS` env var:
 
 ```env
 # Enable only tarot and astrology (fewer tools = faster model selection)
@@ -113,7 +115,7 @@ By default all 10 RoxyAPI products are enabled (~130 tools — 9 spiritual domai
 ROXYAPI_PRODUCTS=tarot,astrology,location
 ```
 
-Available product slugs: `astrology`, `vedic-astrology`, `tarot`, `numerology`, `biorhythm`, `crystals`, `angel-numbers`, `iching`, `dreams`, `location`. Legacy `-api` suffixed slugs (e.g. `tarot-api`) still work for backwards compat.
+Available product slugs: `astrology`, `vedic-astrology`, `tarot`, `numerology`, `human-design`, `forecast`, `biorhythm`, `crystals`, `angel-numbers`, `iching`, `dreams`, `location`. Legacy `-api` suffixed slugs (e.g. `tarot-api`) still work for backwards compat.
 
 ### Tool count recommendations
 
@@ -172,7 +174,7 @@ Key design decisions:
 |-------|------|
 | Framework | [Next.js 16](https://nextjs.org) (App Router, React 19) |
 | AI | [Vercel AI SDK v6](https://ai-sdk.dev) — streaming, tool calling, multi-provider |
-| Data | [RoxyAPI](https://roxyapi.com) — 130+ tools, 9 spiritual domains plus location, native [MCP](https://roxyapi.com/docs/mcp) |
+| Data | [RoxyAPI](https://roxyapi.com): 145+ tools, 11 spiritual domains plus location, native [MCP](https://roxyapi.com/docs/mcp) |
 | Tool Discovery | [MCP](https://modelcontextprotocol.io) via `@ai-sdk/mcp` — auto-discovers tools at runtime |
 | UI | [Tailwind CSS v4](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com) + custom space theme |
 | SEO | Server-rendered JSON-LD (schema.org), Open Graph, keyword meta tags |
@@ -197,7 +199,7 @@ Key design decisions:
 | `ANTHROPIC_API_KEY` | If Anthropic | — | Anthropic API key |
 | `OPENAI_API_KEY` | If OpenAI | — | OpenAI API key |
 | `ROXYAPI_MCP_URL` | No | `https://roxyapi.com/mcp` | Base URL for MCP endpoints |
-| `ROXYAPI_PRODUCTS` | No | All 10 products | Comma-separated list of product slugs to enable |
+| `ROXYAPI_PRODUCTS` | No | All 12 products | Comma-separated list of product slugs to enable |
 | `MAX_TOOL_STEPS` | No | `5` | Max tool-call round-trips per message |
 
 ## Deploy
@@ -226,7 +228,7 @@ npm run build && npm start
 
 ### How many tools can the LLM handle?
 
-The default setup exposes ~130 tools from 10 RoxyAPI products (9 spiritual domains plus location for geocoding). Modern models like Gemini 2.0 Flash, GPT-4o Mini, and Claude Haiku 4.5 handle this well. If you see the model picking the wrong tool or making excessive tool calls, reduce the product count via `ROXYAPI_PRODUCTS` — fewer tools means faster, more accurate selection.
+The default setup exposes ~145 tools from 12 RoxyAPI products (11 spiritual domains plus location for geocoding). Modern models like Gemini 2.0 Flash, GPT-4o Mini, and Claude Haiku 4.5 handle this well. If you see the model picking the wrong tool or making excessive tool calls, reduce the product count via `ROXYAPI_PRODUCTS` — fewer tools means faster, more accurate selection.
 
 ### The chatbot is unstable / sometimes doesn't respond
 

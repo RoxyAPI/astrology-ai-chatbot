@@ -47,6 +47,8 @@ export const DEFAULT_PRODUCTS = [
   "vedic-astrology",
   "tarot",
   "numerology",
+  "human-design",
+  "forecast",
   "biorhythm",
   "crystals",
   "angel-numbers",
