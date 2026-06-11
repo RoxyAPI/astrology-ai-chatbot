@@ -27,18 +27,18 @@ const provider = process.env.LLM_PROVIDER || "gemini";
  *
  * | Provider    | Model                    | Notes                   |
  * |-------------|--------------------------|-------------------------|
- * | gemini      | gemini-2.0-flash         | Free tier available     |
+ * | gemini      | gemini-2.5-flash         | Free tier available     |
  * | anthropic   | claude-haiku-4-5         | Best quality            |
- * | openai      | gpt-4o-mini              | Most popular            |
+ * | openai      | gpt-5-mini               | Most popular            |
  */
 export function getModel() {
   switch (provider) {
     case "anthropic":
       return anthropic("claude-haiku-4-5-20251001");
     case "openai":
-      return openai("gpt-4o-mini");
+      return openai("gpt-5-mini");
     case "gemini":
     default:
-      return google("gemini-2.0-flash");
+      return google("gemini-2.5-flash");
   }
 }

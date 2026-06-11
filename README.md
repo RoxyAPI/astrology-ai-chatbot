@@ -4,7 +4,7 @@
   </a>
 </p>
 
-# AI Astrology Chatbot — Western, Vedic, Tarot & More
+# AI Astrology Chatbot: Western, Vedic, Tarot & More
 
 > Open source AI chatbot that runs real Western astrology, Vedic kundli, numerology, tarot, Human Design, forecast timelines, biorhythm, I Ching, crystals, dreams, and angel numbers calculations. Powered by [RoxyAPI](https://roxyapi.com), not LLM hallucinations.
 
@@ -20,9 +20,9 @@ Ships with auto-discovered remote MCP tools, multi-provider LLM support (Gemini,
 
 **Clone. Add keys. Deploy. Live AI astrology chatbot in 30 minutes.**
 
-![AI Astrology Chatbot — Empty State](https://raw.githubusercontent.com/RoxyAPI/astrology-ai-chatbot/main/screenshots/screenshot-01.png)
+![AI Astrology Chatbot: Empty State](https://raw.githubusercontent.com/RoxyAPI/astrology-ai-chatbot/main/screenshots/screenshot-01.png)
 
-![AI Astrology Chatbot — Vedic Birth Chart Response](https://raw.githubusercontent.com/RoxyAPI/astrology-ai-chatbot/main/screenshots/screenshot-02.png)
+![AI Astrology Chatbot: Vedic Birth Chart Response](https://raw.githubusercontent.com/RoxyAPI/astrology-ai-chatbot/main/screenshots/screenshot-02.png)
 
 ## Why This Exists
 
@@ -42,10 +42,10 @@ Most AI astrology chatbots hallucinate planet positions, make up tarot spreads, 
 | **I Ching** | Hexagram readings, daily cast, full 64-hexagram catalog with changing lines |
 | **Crystals** | Stones by zodiac, by chakra, birthstones by month, healing properties |
 | **Dreams** | 2,000+ dream symbols, recurring patterns, archetypes |
-| **Angel Numbers** | Spiritual meaning of 111, 222, 333, 444, 1111 — and any positive integer via digit-root fallback |
-| **Location** | City autocomplete with latitude, longitude, IANA timezone — turns "born in Mumbai" into chart-ready coordinates so users never type lat/long |
+| **Angel Numbers** | Spiritual meaning of 111, 222, 333, 444, 1111, and any positive integer via digit-root fallback |
+| **Location** | City autocomplete with latitude, longitude, IANA timezone: turns "born in Mumbai" into chart-ready coordinates so users never type lat/long |
 
-Responds in the user's language automatically — Hindi, Spanish, French, German, Japanese, and more.
+Responds in the user's language automatically: Hindi, Spanish, French, German, Japanese, and more.
 
 ## Quick Start
 
@@ -64,18 +64,18 @@ You need two keys:
 
 | Key | Where to get it |
 |-----|----------------|
-| **RoxyAPI** | [roxyapi.com/pricing](https://roxyapi.com/pricing) — powers all readings and calculations |
-| **LLM** | Google, Anthropic, or OpenAI — interprets the data (see below) |
+| **RoxyAPI** | [roxyapi.com/pricing](https://roxyapi.com/pricing), powers all readings and calculations |
+| **LLM** | Google, Anthropic, or OpenAI, interprets the data (see below) |
 
 ## Choose Your LLM
 
-Swap providers with one env var. All three use Vercel AI SDK's unified interface — same code, different model:
+Swap providers with one env var. All three use Vercel AI SDK's unified interface, same code, different model:
 
 | Provider | Env Var | Model | Cost / 1M tokens |
 |----------|---------|-------|-------------------|
-| **Google Gemini** (default) | `GOOGLE_GENERATIVE_AI_API_KEY` | Gemini 2.0 Flash | $0.10 / $0.40 — has free tier |
+| **Google Gemini** (default) | `GOOGLE_GENERATIVE_AI_API_KEY` | Gemini 2.5 Flash | $0.30 / $2.50, has free tier |
 | Anthropic | `ANTHROPIC_API_KEY` | Claude Haiku 4.5 | $1.00 / $5.00 |
-| OpenAI | `OPENAI_API_KEY` | GPT-4o Mini | $0.15 / $0.60 |
+| OpenAI | `OPENAI_API_KEY` | GPT-5 mini | $0.13 / $1.00 |
 
 ```env
 LLM_PROVIDER=gemini
@@ -98,7 +98,7 @@ No prompt-stuffing. No fake data. No hardcoded horoscopes.
 
 ## MCP Tool Discovery
 
-This chatbot uses [Model Context Protocol (MCP)](https://modelcontextprotocol.io) to automatically discover all available tools from [RoxyAPI](https://roxyapi.com) at runtime. No manual endpoint wiring — all 150+ tools across 11 spiritual domains plus location geocoding are ready to use out of the box.
+This chatbot uses [Model Context Protocol (MCP)](https://modelcontextprotocol.io) to automatically discover all available tools from [RoxyAPI](https://roxyapi.com) at runtime. No manual endpoint wiring, all 150+ tools across 11 spiritual domains plus location geocoding are ready to use out of the box.
 
 ### How MCP connections work
 
@@ -110,8 +110,8 @@ By default all 12 RoxyAPI products are enabled (~150 tools across 11 spiritual d
 
 ```env
 # Enable only tarot and astrology (fewer tools = faster model selection)
-# Tip: keep `location` enabled whenever you enable a chart product (astrology, vedic-astrology) —
-# it is what lets the LLM resolve "born in Mumbai" to coordinates before calling the chart.
+# Tip: keep `location` enabled whenever you enable a chart product (astrology, vedic-astrology).
+# It is what lets the LLM resolve "born in Mumbai" to coordinates before calling the chart.
 ROXYAPI_PRODUCTS=tarot,astrology,location
 ```
 
@@ -122,9 +122,9 @@ Available product slugs: `astrology`, `vedic-astrology`, `tarot`, `numerology`, 
 | Tool Count | LLM Behavior | Recommendation |
 |-----------|--------------|----------------|
 | **10-30 tools** | Fast, accurate tool selection | Best for focused use cases (e.g. tarot + astrology only) |
-| **30-80 tools** | Good with capable models (Gemini Flash, GPT-4o Mini, Claude Haiku) | Good balance for most deployments |
+| **30-80 tools** | Good with capable models (Gemini 2.5 Flash, GPT-5 mini, Claude Haiku 4.5) | Good balance for most deployments |
 | **80-120 tools** | Works but slower; model may occasionally pick the wrong tool | Fine with the default setup, increase `MAX_TOOL_STEPS` if needed |
-| **120+ tools** | Not recommended — tool descriptions start competing for context | Trim to the products you actually need |
+| **120+ tools** | Not recommended, tool descriptions start competing for context | Trim to the products you actually need |
 
 > **Tip**: If you're building a focused product (e.g. a tarot-only app), set `ROXYAPI_PRODUCTS=tarot` to give the LLM fewer options and faster, more accurate tool selection.
 
@@ -133,7 +133,7 @@ Available product slugs: `astrology`, `vedic-astrology`, `tarot`, `numerology`, 
 ```
 src/
 ├── app/
-│   ├── api/chat/route.ts    # Chat endpoint — streamText + MCP tools
+│   ├── api/chat/route.ts    # Chat endpoint, streamText + MCP tools
 │   ├── layout.tsx            # Root layout, metadata, JSON-LD SEO
 │   ├── page.tsx              # Home page with structured data
 │   └── globals.css           # Space theme, star animations, glass UI
@@ -146,58 +146,58 @@ src/
 │   └── StarField.tsx         # Animated star background (CSS)
 └── lib/
     ├── ai.ts                 # Multi-provider LLM config (Gemini/Claude/GPT)
-    ├── mcp.ts                # MCP client — connects to RoxyAPI and caches all tools
-    └── prompts.ts            # System prompt — personality, capabilities, multilingual
+    ├── mcp.ts                # MCP client, connects to RoxyAPI and caches all tools
+    └── prompts.ts            # System prompt, personality, capabilities, multilingual
 ```
 
 Key design decisions:
-- **MCP over REST** — tools are auto-discovered from RoxyAPI's MCP servers. No manual endpoint definitions needed.
-- **Persistent MCP connections** — connections are initialized once and cached. No per-request overhead.
-- **Server-side only** — all API keys stay in the Next.js API route. Nothing leaks to the client bundle.
-- **Model agnostic** — Vercel AI SDK v6 abstracts the LLM. Swap Gemini for Claude or GPT with one env var.
-- **SSR + JSON-LD** — structured data and meta tags render server-side for search engine visibility.
+- **MCP over REST**: tools are auto-discovered from RoxyAPI's MCP servers. No manual endpoint definitions needed.
+- **Persistent MCP connections**: connections are initialized once and cached. No per-request overhead.
+- **Server-side only**: all API keys stay in the Next.js API route. Nothing leaks to the client bundle.
+- **Model agnostic**: Vercel AI SDK v6 abstracts the LLM. Swap Gemini for Claude or GPT with one env var.
+- **SSR + JSON-LD**: structured data and meta tags render server-side for search engine visibility.
 
 ## Features
 
-- **Markdown responses** — assistant messages render with full markdown support (headings, bold, lists, code blocks, tables, links)
-- **Typing indicator** — animated dots show during the submitted and streaming phases until text arrives
-- **Stop button** — cancel a long-running response mid-stream
-- **Sticky input** — chat input stays pinned at the bottom; only the message body scrolls
-- **Rate limiting** — built-in per-IP rate limiter (20 req/min) to protect LLM API credits
-- **Input validation** — request body validation with message count cap to prevent abuse
-- **Security headers** — X-Content-Type-Options, X-Frame-Options, Referrer-Policy
-- **Accessible** — ARIA labels on interactive elements, `role="log"` on the message list
+- **Markdown responses**: assistant messages render with full markdown support (headings, bold, lists, code blocks, tables, links)
+- **Typing indicator**: animated dots show during the submitted and streaming phases until text arrives
+- **Stop button**: cancel a long-running response mid-stream
+- **Sticky input**: chat input stays pinned at the bottom; only the message body scrolls
+- **Rate limiting**: built-in per-IP rate limiter (20 req/min) to protect LLM API credits
+- **Input validation**: request body validation with message count cap to prevent abuse
+- **Security headers**: X-Content-Type-Options, X-Frame-Options, Referrer-Policy
+- **Accessible**: ARIA labels on interactive elements, `role="log"` on the message list
 
 ## Stack
 
 | Layer | Tech |
 |-------|------|
 | Framework | [Next.js 16](https://nextjs.org) (App Router, React 19) |
-| AI | [Vercel AI SDK v6](https://ai-sdk.dev) — streaming, tool calling, multi-provider |
+| AI | [Vercel AI SDK v6](https://ai-sdk.dev), streaming, tool calling, multi-provider |
 | Data | [RoxyAPI](https://roxyapi.com): 150+ tools, 11 spiritual domains plus location, native [MCP](https://roxyapi.com/docs/mcp) |
-| Tool Discovery | [MCP](https://modelcontextprotocol.io) via `@ai-sdk/mcp` — auto-discovers tools at runtime |
+| Tool Discovery | [MCP](https://modelcontextprotocol.io) via `@ai-sdk/mcp`, auto-discovers tools at runtime |
 | UI | [Tailwind CSS v4](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com) + custom space theme |
 | SEO | Server-rendered JSON-LD (schema.org), Open Graph, keyword meta tags |
 
 ## Customize
 
-**AI personality** — edit [`src/lib/prompts.ts`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/lib/prompts.ts). Make it mystical, clinical, casual, or match your brand.
+**AI personality**: edit [`src/lib/prompts.ts`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/lib/prompts.ts). Make it mystical, clinical, casual, or match your brand.
 
-**Which domains** — set the `ROXYAPI_PRODUCTS` env var, or edit the product list in [`src/lib/mcp.ts`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/lib/mcp.ts).
+**Which domains**: set the `ROXYAPI_PRODUCTS` env var, or edit the product list in [`src/lib/mcp.ts`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/lib/mcp.ts).
 
-**UI theme** — components are in [`src/components/chat/`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/components/chat/). Star field, colors, and glass effects are in [`globals.css`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/app/globals.css). Everything is Tailwind — no CSS-in-JS.
+**UI theme**: components are in [`src/components/chat/`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/components/chat/). Star field, colors, and glass effects are in [`globals.css`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/app/globals.css). Everything is Tailwind, no CSS-in-JS.
 
-**Tool step limit** — set `MAX_TOOL_STEPS` in your env to control how many tool-call round-trips the LLM can make per message (default: 5).
+**Tool step limit**: set `MAX_TOOL_STEPS` in your env to control how many tool-call round-trips the LLM can make per message (default: 5).
 
 ## Environment Variables
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `ROXYAPI_KEY` | Yes | — | Your RoxyAPI API key ([get one](https://roxyapi.com/pricing)) |
+| `ROXYAPI_KEY` | Yes | none | Your RoxyAPI API key ([get one](https://roxyapi.com/pricing)) |
 | `LLM_PROVIDER` | No | `gemini` | LLM provider: `gemini`, `anthropic`, or `openai` |
-| `GOOGLE_GENERATIVE_AI_API_KEY` | If Gemini | — | Google AI API key |
-| `ANTHROPIC_API_KEY` | If Anthropic | — | Anthropic API key |
-| `OPENAI_API_KEY` | If OpenAI | — | OpenAI API key |
+| `GOOGLE_GENERATIVE_AI_API_KEY` | If Gemini | none | Google AI API key |
+| `ANTHROPIC_API_KEY` | If Anthropic | none | Anthropic API key |
+| `OPENAI_API_KEY` | If OpenAI | none | OpenAI API key |
 | `ROXYAPI_MCP_URL` | No | `https://roxyapi.com/mcp` | Base URL for MCP endpoints |
 | `ROXYAPI_PRODUCTS` | No | All 12 products | Comma-separated list of product slugs to enable |
 | `MAX_TOOL_STEPS` | No | `5` | Max tool-call round-trips per message |
@@ -216,7 +216,7 @@ npm run build && npm start
 
 ## Security
 
-- API keys are server-side only — never exposed to the browser
+- API keys are server-side only, never exposed to the browser
 - All RoxyAPI calls happen in the Next.js API route via MCP, not the client
 - Per-IP rate limiting on the chat endpoint (20 requests/minute)
 - Request body validation with message count limits
@@ -228,15 +228,11 @@ npm run build && npm start
 
 ### How many tools can the LLM handle?
 
-The default setup exposes ~150 tools from 12 RoxyAPI products (11 spiritual domains plus location for geocoding). Modern models like Gemini 2.0 Flash, GPT-4o Mini, and Claude Haiku 4.5 handle this well. If you see the model picking the wrong tool or making excessive tool calls, reduce the product count via `ROXYAPI_PRODUCTS` — fewer tools means faster, more accurate selection.
+The default setup exposes ~150 tools from 12 RoxyAPI products (11 spiritual domains plus location for geocoding). Modern models like Gemini 2.5 Flash, GPT-5 mini, and Claude Haiku 4.5 handle this well. If you see the model picking the wrong tool or making excessive tool calls, reduce the product count via `ROXYAPI_PRODUCTS`, fewer tools means faster, more accurate selection.
 
 ### The chatbot is unstable / sometimes doesn't respond
 
 This is almost always caused by MCP initialization timing out. The default `maxDuration` is 60 seconds, which should be enough. If you're on Vercel's Hobby plan (10s limit), upgrade to Pro or reduce the number of products. Also check that your `ROXYAPI_KEY` is valid.
-
-### Can I use this with my own MCP server?
-
-Yes. Edit [`src/lib/mcp.ts`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/lib/mcp.ts) — the `PRODUCTS` array and `MCP_BASE` URL are all you need to change. The caching and connection logic works with any Streamable HTTP MCP server.
 
 ### Do MCP connections stay open forever?
 
@@ -277,4 +273,4 @@ The code is free and open source. You'll need a [RoxyAPI key](https://roxyapi.co
 
 ---
 
-Built with [RoxyAPI](https://roxyapi.com) — the data engine behind real astrology, tarot, and numerology calculations.
+Built with [RoxyAPI](https://roxyapi.com), the data engine behind real astrology, tarot, and numerology calculations.
