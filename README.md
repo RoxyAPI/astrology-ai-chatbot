@@ -26,7 +26,7 @@ Ships with auto-discovered remote MCP tools, multi-provider LLM support (Gemini,
 
 ## Why This Exists
 
-Most AI astrology chatbots hallucinate planet positions, make up tarot spreads, and invent numerology results. This one calls [RoxyAPI's 145+ verified tools](https://roxyapi.com/api-reference) via [MCP](https://roxyapi.com/docs/mcp) (Model Context Protocol), gets real computed data from astronomical ephemeris engines and mathematical models, then has the LLM interpret it. Every birth chart, every tarot draw, every Life Path calculation is backed by actual computation.
+Most AI astrology chatbots hallucinate planet positions, make up tarot spreads, and invent numerology results. This one calls [RoxyAPI's 150+ verified tools](https://roxyapi.com/api-reference) via [MCP](https://roxyapi.com/docs/mcp) (Model Context Protocol), gets real computed data from astronomical ephemeris engines and mathematical models, then has the LLM interpret it. Every birth chart, every tarot draw, every Life Path calculation is backed by actual computation.
 
 **11 spiritual domains plus location geocoding. Auto-discovered tools via MCP. Multilingual. Any LLM.**
 
@@ -98,7 +98,7 @@ No prompt-stuffing. No fake data. No hardcoded horoscopes.
 
 ## MCP Tool Discovery
 
-This chatbot uses [Model Context Protocol (MCP)](https://modelcontextprotocol.io) to automatically discover all available tools from [RoxyAPI](https://roxyapi.com) at runtime. No manual endpoint wiring — all 145+ tools across 11 spiritual domains plus location geocoding are ready to use out of the box.
+This chatbot uses [Model Context Protocol (MCP)](https://modelcontextprotocol.io) to automatically discover all available tools from [RoxyAPI](https://roxyapi.com) at runtime. No manual endpoint wiring — all 150+ tools across 11 spiritual domains plus location geocoding are ready to use out of the box.
 
 ### How MCP connections work
 
@@ -106,7 +106,7 @@ MCP connections are initialized **once** and cached automatically. The first req
 
 ### Choosing which products to enable
 
-By default all 12 RoxyAPI products are enabled (~145 tools across 11 spiritual domains plus location for geocoding). To use a subset, set the `ROXYAPI_PRODUCTS` env var:
+By default all 12 RoxyAPI products are enabled (~150 tools across 11 spiritual domains plus location for geocoding). To use a subset, set the `ROXYAPI_PRODUCTS` env var:
 
 ```env
 # Enable only tarot and astrology (fewer tools = faster model selection)
@@ -174,7 +174,7 @@ Key design decisions:
 |-------|------|
 | Framework | [Next.js 16](https://nextjs.org) (App Router, React 19) |
 | AI | [Vercel AI SDK v6](https://ai-sdk.dev) — streaming, tool calling, multi-provider |
-| Data | [RoxyAPI](https://roxyapi.com): 145+ tools, 11 spiritual domains plus location, native [MCP](https://roxyapi.com/docs/mcp) |
+| Data | [RoxyAPI](https://roxyapi.com): 150+ tools, 11 spiritual domains plus location, native [MCP](https://roxyapi.com/docs/mcp) |
 | Tool Discovery | [MCP](https://modelcontextprotocol.io) via `@ai-sdk/mcp` — auto-discovers tools at runtime |
 | UI | [Tailwind CSS v4](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com) + custom space theme |
 | SEO | Server-rendered JSON-LD (schema.org), Open Graph, keyword meta tags |
@@ -228,7 +228,7 @@ npm run build && npm start
 
 ### How many tools can the LLM handle?
 
-The default setup exposes ~145 tools from 12 RoxyAPI products (11 spiritual domains plus location for geocoding). Modern models like Gemini 2.0 Flash, GPT-4o Mini, and Claude Haiku 4.5 handle this well. If you see the model picking the wrong tool or making excessive tool calls, reduce the product count via `ROXYAPI_PRODUCTS` — fewer tools means faster, more accurate selection.
+The default setup exposes ~150 tools from 12 RoxyAPI products (11 spiritual domains plus location for geocoding). Modern models like Gemini 2.0 Flash, GPT-4o Mini, and Claude Haiku 4.5 handle this well. If you see the model picking the wrong tool or making excessive tool calls, reduce the product count via `ROXYAPI_PRODUCTS` — fewer tools means faster, more accurate selection.
 
 ### The chatbot is unstable / sometimes doesn't respond
 
