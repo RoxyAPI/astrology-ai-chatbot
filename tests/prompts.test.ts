@@ -38,6 +38,13 @@ describe('getSystemPrompt', () => {
     expect(prompt).toMatch(/self-correct|retry|do not give up/);
   });
 
+  // A purely numeric date with both fields 1-12 is read differently across
+  // locales (07/10 is 7 Oct or 10 Jul). The prompt must make the model disambiguate
+  // before it parses a birth date into a tool call, or global users get the wrong chart.
+  it('disambiguates numeric dates where day and month are both 1-12', () => {
+    expect(prompt).toMatch(/ambiguous|day and month/);
+  });
+
   // Every chart domain connected via MCP must appear in the prompt, or the model
   // will not know the capability exists. Guards the human-design regression.
   it.each(['human design', 'forecast', 'biorhythm', 'vedic', 'western'])(
