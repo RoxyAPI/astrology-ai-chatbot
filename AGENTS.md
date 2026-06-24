@@ -1,6 +1,6 @@
 # Agents Guide
 
-This is an MIT licensed RoxyAPI template: a white label AI astrology chatbot built with Next.js 16 and the Vercel AI SDK, made to be cloned, customised, rebranded, and resold as your own product. It auto discovers remote RoxyAPI MCP servers at runtime, so the LLM reaches 150+ verified tools across 12 domains (11 spiritual plus location geocoding) with no hardcoded endpoint wiring. You are most likely a coding agent helping someone build their own product on top of this template. More templates to fork: https://roxyapi.com/starters
+This is an MIT licensed RoxyAPI template: a white label AI astrology chatbot built with Next.js 16 and the Vercel AI SDK, made to be cloned, customised, rebranded, and resold as your own product. It auto discovers remote RoxyAPI MCP servers at runtime, so the LLM reaches 160+ verified tools across 12 domains (11 spiritual plus location geocoding) with no hardcoded endpoint wiring. You are most likely a coding agent helping someone build their own product on top of this template. More templates to fork: https://roxyapi.com/starters
 
 ## Canonical RoxyAPI references (use these, do not guess)
 
