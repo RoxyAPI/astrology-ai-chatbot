@@ -1,5 +1,35 @@
 version: 2
 updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      # One PR for routine bumps, so CI runs once and the auto-merge workflow can clear it.
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+    ignore:
+      # TypeScript 7 is a full compiler rewrite and the Next.js toolchain does not support it yet.
+      # Revisit deliberately, not as a drive-by bump.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      # ESLint 10 breaks eslint-plugin-react, which ships transitively inside eslint-config-next:
+      # the plugin still calls the pre-10 rule context API and throws on every run. The peer range
+      # advertises eslint >=9, so the bump looks safe and is not. Revisit when Next ships a config
+      # that supports 10.
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+      # The model provider packages and the core ai package reshape the streaming and tool-call
+      # surface on a major, and they have to move together. This app streams tool calls over MCP,
+      # so the upgrade means driving a whole conversation end to end. Deliberate session, not a
+      # weekly bump. Minor and patch updates still flow.
+      - dependency-name: "ai"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@ai-sdk/*"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
