@@ -22,6 +22,11 @@ updates:
       # that supports 10.
       - dependency-name: "eslint"
         update-types: ["version-update:semver-major"]
+      # @types/node tracks the Node major it describes. CI and the deploy runtime are on Node 22,
+      # so Node 26 typings would advertise APIs that do not exist at runtime. Bump this with the
+      # runtime, not ahead of it.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
       # The model provider packages and the core ai package reshape the streaming and tool-call
       # surface on a major, and they have to move together. This app streams tool calls over MCP,
       # so the upgrade means driving a whole conversation end to end. Deliberate session, not a
