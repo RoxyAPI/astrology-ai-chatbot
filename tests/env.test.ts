@@ -42,7 +42,7 @@ describe('getEnvStatus', () => {
     expect(status.missing.map((m) => m.name)).toContain('ROXYAPI_KEY');
   });
 
-  it('treats env.example placeholder values as unset', () => {
+  it('treats .env.example placeholder values as unset', () => {
     process.env.ROXYAPI_KEY = 'your_roxyapi_key_here';
     process.env.GOOGLE_GENERATIVE_AI_API_KEY = 'your_google_api_key_here';
     const status = getEnvStatus();

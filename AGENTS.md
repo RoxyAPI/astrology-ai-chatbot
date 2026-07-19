@@ -14,7 +14,7 @@ Prefer these live sources over memory for any RoxyAPI path, field, SDK method, o
 
 ## Setup
 - Get an API key at https://roxyapi.com/pricing
-- Copy `env.example` to `.env.local` and set:
+- Copy `.env.example` to `.env.local` and set:
   - `ROXYAPI_KEY` for RoxyAPI access
   - One LLM provider key: `GOOGLE_GENERATIVE_AI_API_KEY` (default), `ANTHROPIC_API_KEY`, or `OPENAI_API_KEY`
   - Optional `LLM_PROVIDER`: `gemini`, `anthropic`, or `openai`

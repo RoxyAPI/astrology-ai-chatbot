@@ -2,7 +2,7 @@
  * @fileoverview Environment validation for first-run setup UX.
  *
  * Checks whether the required API keys are present and not still set
- * to the placeholder values shipped in env.example. Read by the home
+ * to the placeholder values shipped in .env.example. Read by the home
  * page (server component) so a missing-key state can render a setup
  * screen instead of the chat — much friendlier than a generic error
  * banner once the user clicks a suggestion.
@@ -25,7 +25,7 @@ export interface EnvStatus {
   provider: LlmProvider;
 }
 
-/** Matches the placeholder strings in env.example. */
+/** Matches the placeholder strings in .env.example. */
 const PLACEHOLDER = /^(your_.+_here|<.+>|placeholder|todo|change[_-]?me)$/i;
 
 function isUnset(val: string | undefined): boolean {
