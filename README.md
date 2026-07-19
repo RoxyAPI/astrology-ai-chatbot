@@ -53,7 +53,7 @@ Responds in the user's language automatically: Hindi, Spanish, French, German, J
 git clone https://github.com/RoxyAPI/astrology-ai-chatbot.git
 cd astrology-ai-chatbot
 npm install
-cp env.example .env.local
+cp .env.example .env.local
 # Add your keys to .env.local
 npm run dev
 ```
