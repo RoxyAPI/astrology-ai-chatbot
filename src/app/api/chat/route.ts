@@ -118,14 +118,14 @@ export async function POST(req: Request) {
               const c = call as Record<string, unknown>;
               console.log(
                 `[tool:call] ${c.toolName}`,
-                JSON.stringify(c.args, null, 2)
+                JSON.stringify(c.input, null, 2)
               );
             }
             for (const res of toolResults) {
               const r = res as Record<string, unknown>;
               console.log(
                 `[tool:result] ${r.toolName}`,
-                JSON.stringify(r.result, null, 2)
+                JSON.stringify(r.output, null, 2)
               );
             }
             if (text) {
