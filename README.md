@@ -115,7 +115,7 @@ By default all 14 RoxyAPI products are enabled (~200 tools across 13 spiritual d
 ROXYAPI_PRODUCTS=tarot,astrology,location
 ```
 
-Available product slugs: `astrology`, `vedic-astrology`, `tarot`, `numerology`, `human-design`, `forecast`, `biorhythm`, `crystals`, `angel-numbers`, `iching`, `dreams`, `location`. Legacy `-api` suffixed slugs (e.g. `tarot-api`) still work for backwards compat.
+Available product slugs: `astrology`, `vedic-astrology`, `forecast`, `human-design`, `chinese-astrology`, `feng-shui`, `numerology`, `tarot`, `biorhythm`, `iching`, `crystals`, `dreams`, `angel-numbers`, `location`. Legacy `-api` suffixed slugs (e.g. `tarot-api`) still work for backwards compat. The list that ships is `DEFAULT_PRODUCTS` in [`src/lib/mcp.ts`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/lib/mcp.ts), so check there when a new RoxyAPI domain appears.
 
 ### Tool count recommendations
 
@@ -123,8 +123,8 @@ Available product slugs: `astrology`, `vedic-astrology`, `tarot`, `numerology`, 
 |-----------|--------------|----------------|
 | **10-30 tools** | Fast, accurate tool selection | Best for focused use cases (e.g. tarot + astrology only) |
 | **30-80 tools** | Good with capable models (Gemini 2.5 Flash, GPT-5 mini, Claude Haiku 4.5) | Good balance for most deployments |
-| **80-120 tools** | Works but slower; model may occasionally pick the wrong tool | Increase `MAX_TOOL_STEPS` if needed |
-| **120+ tools** | Where the full default catalogue sits. Capable models handle it; smaller ones start picking the wrong tool as descriptions compete for context | Trim `ROXYAPI_PRODUCTS` to the domains you actually need |
+| **80-150 tools** | Works but slower; model may occasionally pick the wrong tool | Increase `MAX_TOOL_STEPS` if needed |
+| **200+ tools** | Where the full default catalogue sits, all 14 products enabled. Capable models handle it; smaller ones start picking the wrong tool as descriptions compete for context | Trim `ROXYAPI_PRODUCTS` to the domains you actually need |
 
 > **Tip**: If you're building a focused product (e.g. a tarot-only app), set `ROXYAPI_PRODUCTS=tarot` to give the LLM fewer options and faster, more accurate tool selection.
 
@@ -199,7 +199,7 @@ Key design decisions:
 | `ANTHROPIC_API_KEY` | If Anthropic | none | Anthropic API key |
 | `OPENAI_API_KEY` | If OpenAI | none | OpenAI API key |
 | `ROXYAPI_MCP_URL` | No | `https://roxyapi.com/mcp` | Base URL for MCP endpoints |
-| `ROXYAPI_PRODUCTS` | No | All 12 products | Comma-separated list of product slugs to enable |
+| `ROXYAPI_PRODUCTS` | No | All 14 products | Comma-separated list of product slugs to enable |
 | `MAX_TOOL_STEPS` | No | `5` | Max tool-call round-trips per message |
 
 ## Deploy

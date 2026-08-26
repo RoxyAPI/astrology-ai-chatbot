@@ -27,7 +27,7 @@ Prefer these live sources over memory for any RoxyAPI path, field, SDK method, o
 - When you do need REST: base URL `https://roxyapi.com/api/v2`, auth header `X-API-Key: <key>`.
 
 ## Rule: location first, charts second
-Every chart tool (Western, Vedic, Human Design, Forecast, Biorhythm) needs a correct `timezone`; most also need `latitude` and `longitude`. The model must resolve the birthplace with the `location` search tool first, then pass the returned IANA timezone (and coordinates) to the chart tool. Search the nearest well-known city, never a landmark, airport, base, or village. This guidance lives in `src/lib/prompts.ts`. keep it when you customise the persona, or chart calls will fail for users who give a vague birthplace. Keep the `location` slug enabled whenever any chart product is enabled.
+Every chart tool (Western, Vedic, Human Design, Forecast, Chinese astrology BaZi, Biorhythm) needs a correct `timezone`; most also need `latitude` and `longitude`. BaZi is the exception that still needs the timezone: it reads the hour pillar from the birth clock and takes coordinates only when asked for a solar or local-mean hour. The model must resolve the birthplace with the `location` search tool first, then pass the returned IANA timezone (and coordinates) to the chart tool. Search the nearest well-known city, never a landmark, airport, base, or village. This guidance lives in `src/lib/prompts.ts`. keep it when you customise the persona, or chart calls will fail for users who give a vague birthplace. Keep the `location` slug enabled whenever any chart product is enabled.
 
 ## Where to extend
 - `src/lib/prompts.ts`, system prompt: persona, capability list, and the location-first rule. Tune tone here; preserve the tool-selection guidance.
