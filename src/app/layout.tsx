@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "AI Astrology Chatbot | Western, Vedic, Tarot, Numerology, Biorhythm",
   description:
-    "Open source AI astrology chatbot. Western birth charts, Vedic kundli (Janam Kundli, Vimshottari Dasha, Gun Milan, Panchang, doshas, KP), tarot spreads, numerology, biorhythm, I-Ching, dreams, crystals, angel numbers. 130+ MCP tools verified against NASA JPL Horizons. Multilingual. Powered by RoxyAPI.",
+    "Open source AI astrology chatbot. Western birth charts, Vedic kundli (Janam Kundli, Vimshottari Dasha, Gun Milan, Panchang, doshas, KP), human design, BaZi four pillars, feng shui, tarot spreads, numerology, biorhythm, I-Ching, dreams, crystals, angel numbers. 200+ MCP tools verified against NASA JPL Horizons. Multilingual. Powered by RoxyAPI.",
   keywords: [
     "ai astrology chatbot",
     "vedic astrology api",
@@ -30,6 +30,12 @@ export const metadata: Metadata = {
     "dream interpretation",
     "angel numbers",
     "crystal healing",
+    "chinese astrology",
+    "bazi calculator",
+    "four pillars of destiny",
+    "feng shui",
+    "flying star chart",
+    "kua number",
     "model context protocol",
     "mcp astrology",
     "roxyapi",
@@ -37,7 +43,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "AI Astrology Chatbot | Western, Vedic, Tarot, Numerology, Biorhythm",
     description:
-      "Open source AI chatbot powered by 130+ verified MCP tools. Real Western and Vedic birth charts, tarot, numerology, biorhythm, I-Ching, dreams, crystals, angel numbers. Calculations verified against NASA JPL Horizons. Clone, add keys, deploy in 30 minutes.",
+      "Open source AI chatbot powered by 200+ verified MCP tools. Real Western and Vedic birth charts, human design, BaZi four pillars, feng shui, tarot, numerology, biorhythm, I-Ching, dreams, crystals, angel numbers. Calculations verified against NASA JPL Horizons. Clone, add keys, deploy in 30 minutes.",
     type: "website",
     siteName: "AI Astrology Chatbot",
   },

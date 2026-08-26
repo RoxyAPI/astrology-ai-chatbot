@@ -49,6 +49,8 @@ export const DEFAULT_PRODUCTS = [
   "numerology",
   "human-design",
   "forecast",
+  "chinese-astrology",
+  "feng-shui",
   "biorhythm",
   "crystals",
   "angel-numbers",
