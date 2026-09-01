@@ -32,7 +32,7 @@ const API_KEY = process.env.ROXYAPI_KEY || "";
 
 if (!API_KEY) {
   console.warn(
-    "[mcp] ROXYAPI_KEY is not set — MCP tool calls will fail. " +
+    "[mcp] ROXYAPI_KEY is not set: MCP tool calls will fail. " +
       "Get a key at https://roxyapi.com/pricing"
   );
 }
@@ -150,7 +150,7 @@ async function initialize(): Promise<void> {
   toolsCache = mergedTools;
 
   console.log(
-    `[mcp] Initialized ${resolvedClients.length}/${PRODUCTS.length} products — ${Object.keys(mergedTools).length} tools cached`
+    `[mcp] Initialized ${resolvedClients.length}/${PRODUCTS.length} products, ${Object.keys(mergedTools).length} tools cached`
   );
 }
 

@@ -7,7 +7,7 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "WebApplication",
-      "name": "AI Astrology Chatbot — Western, Vedic, Tarot & More",
+      "name": "AI Astrology Chatbot: Western, Vedic, Tarot & More",
       "url": "https://github.com/RoxyAPI/astrology-ai-chatbot",
       "description":
         "Open source AI astrology chatbot powered by real astronomical calculations, not AI hallucinations. Western birth charts, Vedic kundli (Janam Kundli, Vimshottari Dasha, Gun Milan, Panchang, doshas, KP), tarot spreads, numerology, biorhythm, I-Ching, dreams, crystals, and angel numbers. Every reading is computed from verified data, then interpreted by an LLM. Multilingual. Backed by 200+ RoxyAPI MCP tools verified against NASA JPL Horizons.",
