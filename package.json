@@ -41,7 +41,7 @@
     "eslint": "^9",
     "eslint-config-next": "^16.3.3",
     "lefthook": "^2.1.12",
-    "npm-check-updates": "^22.2.9",
+    "npm-check-updates": "^23.1.0",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.11"
