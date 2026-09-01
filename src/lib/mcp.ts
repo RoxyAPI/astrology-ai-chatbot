@@ -79,6 +79,23 @@ export function resolveProducts(raw?: string): string[] {
 
 const PRODUCTS = resolveProducts(process.env.ROXYAPI_PRODUCTS);
 
+/**
+ * Wraps every tool so each call carries `compact: true`, the RoxyAPI argument that returns the
+ * same complete data in a token efficient columnar shape. The injection happens at execute time,
+ * after the model has produced its arguments, so it holds no matter what the model sends.
+ */
+export function withCompactResponses(tools: ToolSet): ToolSet {
+  return Object.fromEntries(
+    Object.entries(tools).map(([name, tool]) => {
+      const execute = tool.execute;
+      if (!execute) return [name, tool];
+      const compactExecute: typeof execute = (args, options) =>
+        execute({ ...(args as Record<string, unknown>), compact: true }, options);
+      return [name, { ...tool, execute: compactExecute }];
+    })
+  ) as ToolSet;
+}
+
 /* ------------------------------------------------------------------ */
 /*  Singleton cache                                                    */
 /* ------------------------------------------------------------------ */
@@ -120,7 +137,7 @@ async function initialize(): Promise<void> {
   results.forEach((result, i) => {
     if (result.status === "fulfilled") {
       resolvedClients.push(result.value.client);
-      Object.assign(mergedTools, result.value.tools);
+      Object.assign(mergedTools, withCompactResponses(result.value.tools));
     } else {
       console.warn(
         `[mcp] Failed to initialize ${PRODUCTS[i]}:`,
