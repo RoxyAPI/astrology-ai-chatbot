@@ -34,6 +34,11 @@ describe('getSystemPrompt', () => {
     expect(prompt).toContain('iana');
   });
 
+  it('tells the model the app draws tool results, so it interprets instead of reprinting positions', () => {
+    expect(prompt).toMatch(/draws every chart|beside your reply/);
+    expect(prompt).toMatch(/never reprint/);
+  });
+
   it('tells the model to retry instead of surfacing a tool error', () => {
     expect(prompt).toMatch(/self-correct|retry|do not give up/);
   });
