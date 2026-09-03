@@ -96,6 +96,31 @@ User message → LLM picks a tool → MCP calls RoxyAPI → Real data returned �
 
 No prompt-stuffing. No fake data. No hardcoded horoscopes.
 
+## Widgets From Tool Calls
+
+Ask for a tarot card and the card is drawn on screen, art and all, above the reading the model writes. Ask for a natal chart and the wheel renders with its aspect lines, planet list, and aspect grid, in the same message as the interpretation.
+
+![AI Astrology Chatbot: Tarot Card Widget](https://raw.githubusercontent.com/RoxyAPI/astrology-ai-chatbot/main/screenshots/screenshot-03-tarot-widget.png)
+
+![AI Astrology Chatbot: Natal Chart Widget](https://raw.githubusercontent.com/RoxyAPI/astrology-ai-chatbot/main/screenshots/screenshot-04-natal-widget.png)
+
+Nothing is wired per tool. [`@roxyapi/ui-react`](https://www.npmjs.com/package/@roxyapi/ui-react) carries a lookup from the tool name the model used to the component that draws its result, so every domain you enable renders itself. A tool no component covers, a reference lookup for instance, simply keeps the written answer.
+
+| File | What it does |
+|------|--------------|
+| [`src/lib/tool-widgets.ts`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/lib/tool-widgets.ts) | Turns a chat message into the list of components to draw |
+| [`src/components/chat/ToolWidget.tsx`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/components/chat/ToolWidget.tsx) | Renders that list above the prose in the assistant bubble |
+
+Widgets follow the chat theme. The `dark` class in [`src/app/layout.tsx`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/app/layout.tsx) puts them in dark mode, and one token in [`globals.css`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/app/globals.css) sets the brand colour:
+
+```css
+:root {
+  --roxy-accent: oklch(0.70 0.15 195);
+}
+```
+
+Change that value and every chart, spread and table follows, accent text and focus ring included. [THEMING.md](https://github.com/RoxyAPI/ui/blob/main/packages/ui/THEMING.md) covers every token, its light and dark default and what it paints. The [UI components page](https://roxyapi.com/docs/ui) lists every component, and the [AI chat widgets tutorial](https://roxyapi.com/docs/tutorials/ai-chat-widgets) covers the same pattern for other chat frameworks and model vendors.
+
 ## MCP Tool Discovery
 
 This chatbot uses [Model Context Protocol (MCP)](https://modelcontextprotocol.io) to automatically discover all available tools from [RoxyAPI](https://roxyapi.com) at runtime. No manual endpoint wiring, all 200+ tools across 13 spiritual domains plus location geocoding are ready to use out of the box.
@@ -142,12 +167,14 @@ src/
 │   │   ├── ChatPanel.tsx     # Main chat container with useChat
 │   │   ├── MessageList.tsx   # Messages, typing indicator, suggestions
 │   │   ├── MessageBubble.tsx # Markdown rendering for assistant messages
-│   │   └── MessageInput.tsx  # Input field + send/stop button
+│   │   ├── MessageInput.tsx  # Input field + send/stop button
+│   │   └── ToolWidget.tsx    # Draws the components a tool result earned
 │   └── StarField.tsx         # Animated star background (CSS)
 └── lib/
     ├── ai.ts                 # Multi-provider LLM config (Gemini/Claude/GPT)
     ├── mcp.ts                # MCP client, connects to RoxyAPI and caches all tools
-    └── prompts.ts            # System prompt, personality, capabilities, multilingual
+    ├── prompts.ts            # System prompt, personality, capabilities, multilingual
+    └── tool-widgets.ts       # Maps a tool result to the component that renders it
 ```
 
 Key design decisions:
@@ -159,6 +186,7 @@ Key design decisions:
 
 ## Features
 
+- **Tool result widgets**: a tarot card, natal wheel, or bodygraph renders above the interpretation, themed to the chat
 - **Markdown responses**: assistant messages render with full markdown support (headings, bold, lists, code blocks, tables, links)
 - **Typing indicator**: animated dots show during the submitted and streaming phases until text arrives
 - **Stop button**: cancel a long-running response mid-stream
@@ -174,8 +202,9 @@ Key design decisions:
 |-------|------|
 | Framework | [Next.js 16](https://nextjs.org) (App Router, React 19) |
 | AI | [Vercel AI SDK v6](https://ai-sdk.dev), streaming, tool calling, multi-provider |
-| Data | [RoxyAPI](https://roxyapi.com): 200+ tools, 13 spiritual domains plus location, native [MCP](https://roxyapi.com/docs/mcp) |
+| Data | [RoxyAPI](https://roxyapi.com): 200+ tools, 13 spiritual domains plus location, Remote [MCP](https://roxyapi.com/docs/mcp) |
 | Tool Discovery | [MCP](https://modelcontextprotocol.io) via `@ai-sdk/mcp`, auto-discovers tools at runtime |
+| Widgets | [@roxyapi/ui-react](https://www.npmjs.com/package/@roxyapi/ui-react): charts, spreads, and tables that render a tool result |
 | UI | [Tailwind CSS v4](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com) + custom space theme |
 | SEO | Server-rendered JSON-LD (schema.org), Open Graph, keyword meta tags |
 

@@ -83,6 +83,13 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Tool-call widgets. One token rebrands every chart, spread and table, because
+     the accent text and the focus ring are derived from it. Dark styling comes
+     from the `dark` class already on <html>, which the components read. Every
+     token, its light and dark default and what it paints:
+     https://github.com/RoxyAPI/ui/blob/main/packages/ui/THEMING.md */
+  --roxy-accent: oklch(0.70 0.15 195);
 }
 
 .dark {

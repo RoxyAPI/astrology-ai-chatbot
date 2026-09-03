@@ -2,6 +2,7 @@
 
 import type { UIMessage } from "ai";
 import { useEffect, useRef } from "react";
+import { toolWidgetsFor } from "@/lib/tool-widgets";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { MessageBubble } from "./MessageBubble";
 import { Sparkles, Star, Moon, Sun, Flame, Gem, BookOpen } from "lucide-react";
@@ -29,14 +30,14 @@ export function MessageList({
 }: MessageListProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  // Check if the last assistant message already has visible text.
-  // While loading, we show the typing indicator until text starts arriving.
+  // Check whether the last assistant message is showing anything yet. A chart from
+  // a tool call lands before the prose, so it counts as output too and the typing
+  // indicator gives way to it.
   const lastMessage = messages[messages.length - 1];
-  const hasAssistantText =
+  const hasAssistantOutput =
     lastMessage?.role === "assistant" &&
-    lastMessage.parts.some(
-      (p) => p.type === "text" && p.text.length > 0
-    );
+    (lastMessage.parts.some((p) => p.type === "text" && p.text.length > 0) ||
+      toolWidgetsFor(lastMessage).length > 0);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -81,7 +82,7 @@ export function MessageList({
         {messages.map((message) => (
           <MessageBubble key={message.id} message={message} />
         ))}
-        {isLoading && !hasAssistantText && (
+        {isLoading && !hasAssistantOutput && (
           <div className="flex gap-3">
             <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-roxy/15 ring-1 ring-roxy/25 shrink-0">
               <Sparkles className="w-4 h-4 text-roxy" />

@@ -20,7 +20,7 @@ Prefer these live sources over memory for any RoxyAPI path, field, SDK method, o
   - Optional `LLM_PROVIDER`: `gemini`, `anthropic`, or `openai`
   - Optional `ROXYAPI_PRODUCTS` to limit which MCP servers connect, e.g. `astrology,tarot,location`
 - `npm install`, then `npm run dev`, then open http://localhost:3000
-- `npm test` runs the vitest suite (env resolution, product resolution, system-prompt contract)
+- `npm test` runs the vitest suite (env resolution, product resolution, system-prompt contract, tool widget mapping)
 
 ## How data flows
 - This chatbot never calls the REST API directly. The LLM picks a tool, the tool runs through MCP, MCP calls RoxyAPI, the LLM streams an interpretation back.
@@ -34,6 +34,8 @@ Every chart tool (Western, Vedic, Human Design, Forecast, Chinese astrology BaZi
 - `src/lib/mcp.ts`, MCP server registry and discovery. Add or remove product slugs here.
 - `src/lib/ai.ts`, LLM provider switch. Add a provider by extending the model factory.
 - `src/app/api/chat/route.ts`, streaming chat handler wiring the LLM to discovered MCP tools.
+- `src/lib/tool-widgets.ts`, the map from a completed tool call to the component that draws its result. Pure and unit tested. Change what renders here, not in the view.
+- `src/components/chat/ToolWidget.tsx`, renders that list above the prose in the assistant bubble. Theme it with the `--roxy-*` tokens in `src/app/globals.css`, never by restyling the components. Every token, its light and dark default and what it paints: https://github.com/RoxyAPI/ui/blob/main/packages/ui/THEMING.md
 - `src/app/page.tsx` + `src/components/`, chat UI, styling, layout.
 
 ## Conventions

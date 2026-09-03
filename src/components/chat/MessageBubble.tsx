@@ -4,6 +4,8 @@ import type { UIMessage } from "ai";
 import { Sparkles, User } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { toolWidgetsFor } from "@/lib/tool-widgets";
+import { ToolWidget } from "./ToolWidget";
 
 interface MessageBubbleProps {
   message: UIMessage;
@@ -17,7 +19,11 @@ export function MessageBubble({ message }: MessageBubbleProps) {
     .map((part) => part.text)
     .join("");
 
-  if (!textContent) return null;
+  const widgets = toolWidgetsFor(message);
+
+  // A chart lands before the interpretation the model is still writing, so a
+  // message counts as empty only when it has neither.
+  if (!textContent && widgets.length === 0) return null;
 
   return (
     <div className={`flex gap-3 ${isUser ? "flex-row-reverse" : ""}`}>
@@ -41,6 +47,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
             : "bg-white/5 ring-1 ring-white/8 text-zinc-200 rounded-tl-md"
         }`}
       >
+        <ToolWidget widgets={widgets} />
         {isUser ? (
           textContent
         ) : (
