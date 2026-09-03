@@ -111,15 +111,17 @@ Nothing is wired per tool. [`@roxyapi/ui-react`](https://www.npmjs.com/package/@
 | [`src/lib/tool-widgets.ts`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/lib/tool-widgets.ts) | Turns a chat message into the list of components to draw |
 | [`src/components/chat/ToolWidget.tsx`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/components/chat/ToolWidget.tsx) | Renders that list above the prose in the assistant bubble |
 
-Widgets follow the chat theme. The `dark` class in [`src/app/layout.tsx`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/app/layout.tsx) puts them in dark mode, and one token in [`globals.css`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/app/globals.css) sets the brand colour:
+Widgets wear the chat palette rather than a theme of their own. Every surface, ink, border, status colour, face and corner a drawing paints comes from a `--roxy-*` token, and [`globals.css`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/app/globals.css) points the whole set at the app palette in one block, so a chart is the same material as the bubble it arrives in:
 
 ```css
 :root {
-  --roxy-accent: oklch(0.70 0.15 195);
+  --roxy-surface: var(--surface-panel);
+  --roxy-accent: var(--accent-brand);
+  /* and the rest of the set */
 }
 ```
 
-Change that value and every chart, spread and table follows, accent text and focus ring included. [THEMING.md](https://github.com/RoxyAPI/ui/blob/main/packages/ui/THEMING.md) covers every token, its light and dark default and what it paints. The [UI components page](https://roxyapi.com/docs/ui) lists every component, and the [AI chat widgets tutorial](https://roxyapi.com/docs/tutorials/ai-chat-widgets) covers the same pattern for other chat frameworks and model vendors.
+Recolour the palette and the drawings follow, at any width. Restyling a component is never the answer, and `tests/design-tokens.test.ts` fails if a token is given a colour of its own. [THEMING.md](https://github.com/RoxyAPI/ui/blob/main/packages/ui/THEMING.md) covers every token, its light and dark default and what it paints. The [UI components page](https://roxyapi.com/docs/ui) lists every component, and the [AI chat widgets tutorial](https://roxyapi.com/docs/tutorials/ai-chat-widgets) covers the same pattern for other chat frameworks and model vendors.
 
 ## MCP Tool Discovery
 

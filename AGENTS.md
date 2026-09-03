@@ -36,7 +36,7 @@ Every chart tool (Western, Vedic, Human Design, Forecast, Chinese astrology BaZi
 - `src/lib/ai.ts`, LLM provider switch. Add a provider by extending the model factory.
 - `src/app/api/chat/route.ts`, streaming chat handler wiring the LLM to discovered MCP tools.
 - `src/lib/tool-widgets.ts`, the map from a completed tool call to the component that draws its result. Pure and unit tested. Change what renders here, not in the view.
-- `src/components/chat/ToolWidget.tsx`, renders that list above the prose in the assistant bubble. Theme it with the `--roxy-*` tokens in `src/app/globals.css`, never by restyling the components. Every token, its light and dark default and what it paints: https://github.com/RoxyAPI/ui/blob/main/packages/ui/THEMING.md
+- `src/components/chat/ToolWidget.tsx`, renders that list above the prose in the assistant bubble. It is themed by the `--roxy-*` bridge in `src/app/globals.css`, which points every one of those tokens at the app palette, so recolour the palette and never restyle a component. `tests/design-tokens.test.ts` fails if a token is given a colour of its own or stops matching the radius scale. Every token, its light and dark default and what it paints: https://github.com/RoxyAPI/ui/blob/main/packages/ui/THEMING.md
 - `src/app/page.tsx` + `src/components/`, chat UI, styling, layout.
 
 ## Conventions

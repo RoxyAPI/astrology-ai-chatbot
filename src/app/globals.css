@@ -7,8 +7,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-app);
+  --font-mono: var(--font-app-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -45,9 +45,11 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
-  /* Roxy brand teal */
-  --color-roxy: oklch(0.70 0.15 195);
-  --color-roxy-dim: oklch(0.65 0.14 195);
+  /* Roxy brand teal. Declared in :root below and referenced here, because a value in
+     this block is inlined into utilities and cannot be read back at runtime, and the
+     widget bridge has to read it. */
+  --color-roxy: var(--accent-brand);
+  --color-roxy-dim: var(--accent-brand-dim);
 }
 
 :root {
@@ -84,12 +86,72 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  /* Tool-call widgets. One token rebrands every chart, spread and table, because
-     the accent text and the focus ring are derived from it. Dark styling comes
-     from the `dark` class already on <html>, which the components read. Every
-     token, its light and dark default and what it paints:
-     https://github.com/RoxyAPI/ui/blob/main/packages/ui/THEMING.md */
-  --roxy-accent: oklch(0.70 0.15 195);
+  --accent-brand: oklch(0.70 0.15 195);
+  --accent-brand-dim: oklch(0.65 0.14 195);
+
+  /* The faces, named once for the utilities, the prose and the drawings alike. The root
+     layout loads Inter under this exact family name, so a fork that swaps the face
+     changes it there and here. No monospace face is loaded, so that stack is the one the
+     system already has. */
+  --font-app: Inter, "Inter Fallback", system-ui, sans-serif;
+  --font-app-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /*
+  The bridge to the components that draw a tool result. Every one of them reads
+  `--roxy-*`, so pointing those at the palette above is the whole of theming them, and
+  restyling a component is never the answer. Every value here is a reference rather
+  than a colour, so the palette moves the whole set and there is no second copy to keep
+  in step. Every token, its light and dark default and what it paints:
+  https://github.com/RoxyAPI/ui/blob/main/packages/ui/THEMING.md
+
+  The surface pairing is the one worth reading twice. `--roxy-surface` is the card a
+  drawing paints and nearly every component reaches for it, while `--roxy-bg` is only
+  the field behind an input, the sheet under a suggestion list and the ink on a filled
+  button. Mapping them the other way round puts a pale sheet on the starfield and hides
+  every button label. Both stay opaque: a drawn table pins one column while the rest
+  scrolls under it, and a see through column smears.
+
+  Three are deliberately absent. `--roxy-accent-ink` and `--roxy-ring` derive from the
+  accent, and the derived ring is the brand teal at 45 percent, which is the focus
+  treatment the chat input already gives itself. `--roxy-heat` derives from the danger
+  colour the same way. Setting any of the three breaks a derivation the library depends
+  on, so a test asserts they stay unset.
+  */
+  --roxy-bg: var(--background);
+  --roxy-surface: var(--surface-panel);
+  --roxy-fg: var(--foreground-soft);
+  --roxy-primary: var(--foreground);
+  --roxy-secondary: var(--muted-foreground);
+  --roxy-muted: var(--muted-foreground);
+  --roxy-border: var(--border);
+  --roxy-accent: var(--accent-brand);
+
+  --roxy-success: var(--success);
+  --roxy-success-fg: var(--success-ink);
+  --roxy-warning: var(--warning);
+  --roxy-warning-fg: var(--warning-ink);
+  --roxy-danger: var(--destructive);
+  --roxy-danger-fg: var(--destructive-ink);
+  --roxy-info: var(--info);
+  --roxy-info-fg: var(--info-ink);
+
+  --roxy-font-sans: var(--font-app);
+  --roxy-font-mono: var(--font-app-mono);
+
+  /* The same steps the theme block builds its radius scale from, and a test asserts the
+     two agree, because a ratio written twice is a ratio that drifts. The library rounds
+     a small mark with the small step, its card with the medium one, and an outer panel
+     with the large one, so those land on the small corner of this app, its base corner, and
+     the corner of the bubble the card sits in. */
+  --roxy-radius-sm: calc(var(--radius) * 0.6);
+  --roxy-radius-md: var(--radius);
+  --roxy-radius-lg: calc(var(--radius) * 1.8);
+
+  /* The chat separates surfaces with a ring and a hairline and never with a shadow, so
+     the drawings do too. */
+  --roxy-shadow-sm: none;
+  --roxy-shadow-md: none;
+  --roxy-shadow-lg: none;
 }
 
 .dark {
@@ -124,6 +186,22 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* The ink the transcript writes in, and the opaque twin of the material the chat is
+     built from: a bubble is white at 5 percent over the page and a field nested in one
+     is white at 8 percent, and this is that field already composited. */
+  --foreground-soft: oklch(0.920 0.004 286.3);
+  --surface-panel: oklch(0.218 0.019 284.7);
+
+  /* Status colours the base palette does not carry, at the lightness this ground needs.
+     Each `-ink` is the text partner for its colour, sized to read on a tint of it. */
+  --success: oklch(0.723 0.192 149.6);
+  --success-ink: oklch(0.871 0.136 154.4);
+  --warning: oklch(0.758 0.159 55.9);
+  --warning-ink: oklch(0.837 0.117 66.3);
+  --destructive-ink: oklch(0.808 0.103 19.6);
+  --info: oklch(0.754 0.139 232.7);
+  --info-ink: oklch(0.828 0.101 230.3);
 }
 
 @layer base {
