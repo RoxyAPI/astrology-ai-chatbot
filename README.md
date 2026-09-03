@@ -231,7 +231,7 @@ Key design decisions:
 
 **Typefaces**: two families in [`layout.tsx`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/app/layout.tsx), loaded through `next/font` as CSS variables. Swap a face there and in the matching line of `globals.css`.
 
-**Layout and copy**: the screen is in [`src/components/chat/`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/components/chat/). The opening screen and its four openers are in `MessageList.tsx`. Everything is Tailwind, no CSS-in-JS.
+**Layout and copy**: the screen is in [`src/components/chat/`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/components/chat/). The openings offered on an empty screen are in [`src/lib/domains.ts`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/lib/domains.ts), each tagged with the product that answers it, so trimming `ROXYAPI_PRODUCTS` never offers a reading your deployment cannot give. Everything is Tailwind, no CSS-in-JS.
 
 **Tool step limit**: set `MAX_TOOL_STEPS` in your env to control how many tool-call round-trips the LLM can make per message (default: 5).
 

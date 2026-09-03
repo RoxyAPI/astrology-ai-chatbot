@@ -4,6 +4,7 @@ import { useChat } from "@ai-sdk/react";
 import type { UIMessage } from "ai";
 import { DefaultChatTransport } from "ai";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { Opener } from "@/lib/domains";
 import { MessageInput } from "./MessageInput";
 import { MessageList } from "./MessageList";
 
@@ -12,6 +13,8 @@ interface ChatPanelProps {
   id: string;
   /** Turns restored from the browser, if this conversation has been had before. */
   initialMessages?: UIMessage[];
+  /** The openings this deployment can answer, shown on an empty screen. */
+  openers: Opener[];
   onPersist: (id: string, messages: UIMessage[]) => void;
 }
 
@@ -22,7 +25,7 @@ interface ChatPanelProps {
  * double mount and a hot reload from talking over each other. A turn is written to the browser only
  * once it has finished arriving, so a stream does not write on every chunk.
  */
-export function ChatPanel({ id, initialMessages, onPersist }: ChatPanelProps) {
+export function ChatPanel({ id, initialMessages, openers, onPersist }: ChatPanelProps) {
   const [input, setInput] = useState("");
   const composer = useRef<HTMLTextAreaElement>(null);
   const submitting = useRef(false);
@@ -66,6 +69,7 @@ export function ChatPanel({ id, initialMessages, onPersist }: ChatPanelProps) {
   return (
     <>
       <MessageList
+        openers={openers}
         messages={messages}
         busy={busy}
         failed={status === "error"}

@@ -15,10 +15,11 @@ import {
   titleFor,
   upsertConversation,
 } from "@/lib/conversations";
+import { domainLabels, openersFor } from "@/lib/domains";
 
 interface ChatShellProps {
-  /** The reading names of the products this deployment connected to. */
-  domains: string[];
+  /** The product slugs this deployment connected to, in the order they were configured. */
+  slugs: string[];
 }
 
 /**
@@ -32,7 +33,9 @@ interface ChatShellProps {
  * browser rather than to React: the server renders an empty list, the browser corrects it in the
  * same commit, and nothing flashes.
  */
-export function ChatShell({ domains }: ChatShellProps) {
+export function ChatShell({ slugs }: ChatShellProps) {
+  const domains = domainLabels(slugs);
+  const openers = openersFor(slugs);
   const conversations = useSyncExternalStore(
     subscribeConversations,
     conversationsSnapshot,
@@ -125,6 +128,7 @@ export function ChatShell({ domains }: ChatShellProps) {
             key={activeId}
             id={activeId}
             initialMessages={active?.messages}
+            openers={openers}
             onPersist={persist}
           />
         </main>

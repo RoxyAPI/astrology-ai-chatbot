@@ -40,3 +40,40 @@ export const DOMAIN_LABELS: Record<string, string> = {
 export function domainLabels(slugs: readonly string[]): string[] {
   return slugs.map((slug) => DOMAIN_LABELS[slug] ?? slug);
 }
+
+/** One way in, and the product that answers it. */
+export interface Opener {
+  text: string;
+  /** The product slug that has to be connected for this reading to be possible. */
+  domain: string;
+}
+
+/** The openings the screen offers, in the order they are shown. */
+export const OPENERS: readonly Opener[] = [
+  { text: "Draw a card for today", domain: "tarot" },
+  { text: "Read my birth chart", domain: "astrology" },
+  { text: "Where is the moon right now?", domain: "astrology" },
+  { text: "Life path number for 22 March 1995", domain: "numerology" },
+];
+
+/** How many openings the screen shows even when very little is connected. */
+const MIN_OPENERS = 2;
+
+/**
+ * The openings this deployment can actually answer.
+ *
+ * @remarks Offering a reading the connected set cannot produce spends a first click on a fallback
+ * paragraph, which is the worst possible first impression. A deployment trimmed below two matches
+ * is topped up in order rather than left with a bare screen: two openings that may not all land
+ * beats one, and the model says plainly when a domain is not connected.
+ *
+ * @example
+ *   openersFor(["tarot", "astrology", "location"]) // three, no numerology
+ */
+export function openersFor(slugs: readonly string[]): Opener[] {
+  const connected = new Set(slugs);
+  const offered = OPENERS.filter((opener) => connected.has(opener.domain));
+  if (offered.length >= MIN_OPENERS) return offered;
+  const rest = OPENERS.filter((opener) => !offered.includes(opener));
+  return [...offered, ...rest].slice(0, MIN_OPENERS);
+}

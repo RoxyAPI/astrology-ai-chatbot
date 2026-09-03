@@ -4,29 +4,23 @@ import type { UIMessage } from "ai";
 import { Loader2 } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
+import type { Opener } from "@/lib/domains";
 import { toolWidgetsFor } from "@/lib/tool-widgets";
 import { MessageBubble } from "./MessageBubble";
 
-/**
- * Four ways in, filled into the composer rather than sent, so the first thing a reader does is read
- * the question and change it. The lead examples are the ones anybody can answer from their own
- * birthday.
- */
-const OPENERS = [
-  "Draw a card for today",
-  "Read my birth chart",
-  "Where is the moon right now?",
-  "Life path number for 22 March 1995",
-];
-
 interface MessageListProps {
+  /**
+   * The openings to offer, already narrowed to what this deployment connected. They fill the
+   * composer rather than send, so the first thing a reader does is read the question and change it.
+   */
+  openers: Opener[];
   messages: UIMessage[];
   busy: boolean;
   failed: boolean;
   onOpener: (text: string) => void;
 }
 
-export function MessageList({ messages, busy, failed, onOpener }: MessageListProps) {
+export function MessageList({ openers, messages, busy, failed, onOpener }: MessageListProps) {
   const end = useRef<HTMLDivElement>(null);
 
   // The wait indicator is only for the pause before anything shows. A drawing from a tool call
@@ -60,15 +54,15 @@ export function MessageList({ messages, busy, failed, onOpener }: MessageListPro
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
-                {OPENERS.map((opener) => (
+                {openers.map(({ text }) => (
                   <Button
-                    key={opener}
+                    key={text}
                     variant="outline"
                     size="lg"
                     className="h-auto py-2 text-left whitespace-normal"
-                    onClick={() => onOpener(opener)}
+                    onClick={() => onOpener(text)}
                   >
-                    {opener}
+                    {text}
                   </Button>
                 ))}
               </div>

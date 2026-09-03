@@ -52,11 +52,11 @@ Every chart tool (Western, Vedic, Human Design, Forecast, Chinese astrology BaZi
 - `src/components/chat/ChatHeader.tsx`, wordmark, the strip of connected domains, and the view controls.
 - `src/components/chat/ChatSidebar.tsx`, new chat, recent conversations, and the connected list. A panel on a wide screen and a drawer on a narrow one.
 - `src/components/chat/ChatPanel.tsx`, one conversation: the transcript, the composer, and the attribution.
-- `src/components/chat/MessageList.tsx`, the transcript, the opening screen and its four openers.
+- `src/components/chat/MessageList.tsx`, the transcript and the opening screen.
 - `src/components/chat/MessageBubble.tsx`, one turn. The question is boxed, the reply is not.
 - `src/components/chat/MessageInput.tsx`, the composer. Enter sends, shift and enter makes a newline.
 - `src/lib/conversations.ts`, recent conversations, kept in the browser under one key and bounded at twenty. Nothing is sent anywhere and there is no account. Unit tested.
-- `src/lib/domains.ts`, the reading name for each product slug, shown in the header and the sidebar.
+- `src/lib/domains.ts`, the reading name for each product slug, and the openings the empty screen offers. Each opening names the product that answers it and is shown only when that product is connected, so trimming `ROXYAPI_PRODUCTS` never offers a reading the deployment cannot give.
 
 ## Conventions
 - Next.js App Router with server components. The chat route is a streaming POST endpoint. API keys stay server-side, never in the client bundle.

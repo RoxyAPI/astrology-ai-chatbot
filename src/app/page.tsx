@@ -1,6 +1,5 @@
 import { ChatShell } from "@/components/chat";
 import { SetupRequired } from "@/components/SetupRequired";
-import { domainLabels } from "@/lib/domains";
 import { getEnvStatus } from "@/lib/env";
 import { resolveProducts } from "@/lib/mcp";
 
@@ -104,9 +103,9 @@ const jsonLd = {
 
 export default function Home() {
   const env = getEnvStatus();
-  // What the header strip and the sidebar list is what this deployment actually connected to,
-  // resolved from the same environment variable the tool registry reads.
-  const domains = domainLabels(resolveProducts(process.env.ROXYAPI_PRODUCTS));
+  // What the screen names, and what it offers to start with, is what this deployment actually
+  // connected to, resolved from the same environment variable the tool registry reads.
+  const slugs = resolveProducts(process.env.ROXYAPI_PRODUCTS);
 
   return (
     <>
@@ -114,7 +113,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      {env.ok ? <ChatShell domains={domains} /> : <SetupRequired status={env} />}
+      {env.ok ? <ChatShell slugs={slugs} /> : <SetupRequired status={env} />}
     </>
   );
 }
