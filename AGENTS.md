@@ -24,6 +24,7 @@ Prefer these live sources over memory for any RoxyAPI path, field, SDK method, o
 
 ## How data flows
 - This chatbot never calls the REST API directly. The LLM picks a tool, the tool runs through MCP, MCP calls RoxyAPI, the LLM streams an interpretation back.
+- Every completed tool call also renders: `src/lib/tool-widgets.ts` reads the `dynamic-tool` parts of the assistant message, asks `componentForTool` from `@roxyapi/ui-react` which component draws that tool name, parses the JSON text block, and `ToolWidget.tsx` mounts it above the interpretation in the same bubble. Nothing is listed per tool: enable a product in `src/lib/mcp.ts` and its results render. A tool no component covers keeps the written answer. Compact results are decoded inside the component, so leave `compact` on. Full pattern: https://roxyapi.com/docs/tutorials/ai-chat-widgets
 - When you do need REST: base URL `https://roxyapi.com/api/v2`, auth header `X-API-Key: <key>`.
 
 ## Rule: location first, charts second
