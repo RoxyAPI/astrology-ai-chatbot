@@ -16,17 +16,17 @@
 [![More starters](https://img.shields.io/badge/More_Starters-RoxyAPI-ec4899?style=for-the-badge&logo=github&logoColor=white)](https://roxyapi.com/starters)
 [![Deploy with Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?style=for-the-badge&logo=vercel)](https://vercel.com/new/clone?repository-url=https://github.com/RoxyAPI/astrology-ai-chatbot&env=ROXYAPI_KEY,GOOGLE_GENERATIVE_AI_API_KEY&envDescription=API%20keys%20for%20RoxyAPI%20and%20your%20LLM%20provider&envLink=https://roxyapi.com/pricing)
 
-Ships with auto-discovered remote MCP tools, multi-provider LLM support (Gemini, Claude, GPT), and a space-themed UI.
+Ships with auto-discovered remote MCP tools, multi-provider LLM support (Gemini, Claude, GPT), and an interface built to be shown to customers: light and dark, a collapsible conversation list, and every chart drawn in the palette you choose.
 
 **Clone. Add keys. Deploy. Live AI astrology chatbot in 30 minutes.**
 
-![AI Astrology Chatbot: Empty State](https://raw.githubusercontent.com/RoxyAPI/astrology-ai-chatbot/main/screenshots/screenshot-01.png)
-
-![AI Astrology Chatbot: Vedic Birth Chart Response](https://raw.githubusercontent.com/RoxyAPI/astrology-ai-chatbot/main/screenshots/screenshot-02.png)
+| Dark | Light |
+|---|---|
+| <img src="https://raw.githubusercontent.com/RoxyAPI/astrology-ai-chatbot/main/screenshots/screenshot-01.png" alt="AI astrology chatbot opening screen in dark mode" width="100%"> | <img src="https://raw.githubusercontent.com/RoxyAPI/astrology-ai-chatbot/main/screenshots/screenshot-02.png" alt="AI astrology chatbot opening screen in light mode" width="100%"> |
 
 ## Why This Exists
 
-Most AI astrology chatbots hallucinate planet positions, make up tarot spreads, and invent numerology results. This one calls [RoxyAPI's 200+ verified tools](https://roxyapi.com/api-reference) via [MCP](https://roxyapi.com/docs/mcp) (Model Context Protocol), gets real computed data from astronomical ephemeris engines and mathematical models, then has the LLM interpret it. Every birth chart, every tarot draw, every Life Path calculation is backed by actual computation.
+Most AI astrology chatbots hallucinate planet positions, make up tarot spreads, and invent numerology results. This one calls [the 200+ verified tools at RoxyAPI](https://roxyapi.com/api-reference) via [MCP](https://roxyapi.com/docs/mcp) (Model Context Protocol), gets real computed data from astronomical ephemeris engines and mathematical models, then has the LLM interpret it. Every birth chart, every tarot draw, every Life Path calculation is backed by actual computation.
 
 **13 spiritual domains plus location geocoding. Auto-discovered tools via MCP. Multilingual. Any LLM.**
 
@@ -45,7 +45,7 @@ Most AI astrology chatbots hallucinate planet positions, make up tarot spreads, 
 | **Angel Numbers** | Spiritual meaning of 111, 222, 333, 444, 1111, and any positive integer via digit-root fallback |
 | **Location** | City autocomplete with latitude, longitude, IANA timezone: turns "born in Mumbai" into chart-ready coordinates so users never type lat/long |
 
-Responds in the user's language automatically: Hindi, Spanish, French, German, Japanese, and more.
+Responds in the language the person writes in: Hindi, Spanish, French, German, Japanese, and more.
 
 ## Quick Start
 
@@ -69,7 +69,7 @@ You need two keys:
 
 ## Choose Your LLM
 
-Swap providers with one env var. All three use Vercel AI SDK's unified interface, same code, different model:
+Swap providers with one env var. All three use the unified interface in the Vercel AI SDK, same code, different model:
 
 | Provider | Env Var | Model | Cost / 1M tokens |
 |----------|---------|-------|-------------------|
@@ -100,9 +100,9 @@ No prompt-stuffing. No fake data. No hardcoded horoscopes.
 
 Ask for a tarot card and the card is drawn on screen, art and all, above the reading the model writes. Ask for a natal chart and the wheel renders with its aspect lines, planet list, and aspect grid, in the same message as the interpretation.
 
-![AI Astrology Chatbot: Tarot Card Widget](https://raw.githubusercontent.com/RoxyAPI/astrology-ai-chatbot/main/screenshots/screenshot-03-tarot-widget.png)
-
-![AI Astrology Chatbot: Natal Chart Widget](https://raw.githubusercontent.com/RoxyAPI/astrology-ai-chatbot/main/screenshots/screenshot-04-natal-widget.png)
+| Tarot card, dark | Natal wheel, light |
+|---|---|
+| <img src="https://raw.githubusercontent.com/RoxyAPI/astrology-ai-chatbot/main/screenshots/screenshot-03-tarot-widget.png" alt="A drawn tarot card above the reading written about it" width="100%"> | <img src="https://raw.githubusercontent.com/RoxyAPI/astrology-ai-chatbot/main/screenshots/screenshot-04-natal-widget.png" alt="A natal wheel with aspect lines above the interpretation" width="100%"> |
 
 Nothing is wired per tool. [`@roxyapi/ui-react`](https://www.npmjs.com/package/@roxyapi/ui-react) carries a lookup from the tool name the model used to the component that draws its result, so every domain you enable renders itself. A tool no component covers, a reference lookup for instance, simply keeps the written answer.
 
@@ -111,17 +111,17 @@ Nothing is wired per tool. [`@roxyapi/ui-react`](https://www.npmjs.com/package/@
 | [`src/lib/tool-widgets.ts`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/lib/tool-widgets.ts) | Turns a chat message into the list of components to draw |
 | [`src/components/chat/ToolWidget.tsx`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/components/chat/ToolWidget.tsx) | Renders that list above the prose in the assistant bubble |
 
-Widgets wear the chat palette rather than a theme of their own. Every surface, ink, border, status colour, face and corner a drawing paints comes from a `--roxy-*` token, and [`globals.css`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/app/globals.css) points the whole set at the app palette in one block, so a chart is the same material as the bubble it arrives in:
+Widgets wear the chat palette rather than a theme of their own. Every surface, ink, border, status colour, face and corner a drawing paints comes from a `--roxy-*` token, and [`globals.css`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/app/globals.css) points the whole set at the app palette in one block, so a chart is the same material as the page it arrives on:
 
 ```css
 :root {
-  --roxy-surface: var(--surface-panel);
-  --roxy-accent: var(--accent-brand);
+  --roxy-surface: var(--card);
+  --roxy-accent: var(--primary);
   /* and the rest of the set */
 }
 ```
 
-Recolour the palette and the drawings follow, at any width. Restyling a component is never the answer, and `tests/design-tokens.test.ts` fails if a token is given a colour of its own. [THEMING.md](https://github.com/RoxyAPI/ui/blob/main/packages/ui/THEMING.md) covers every token, its light and dark default and what it paints. The [UI components page](https://roxyapi.com/docs/ui) lists every component, and the [AI chat widgets tutorial](https://roxyapi.com/docs/tutorials/ai-chat-widgets) covers the same pattern for other chat frameworks and model vendors.
+Every value is a reference rather than a colour, so the dark palette moves the drawings with everything else and there is no second copy to keep in step. Recolour the palette and the drawings follow, in both themes and at any width. Restyling a component is never the answer, and `tests/design-tokens.test.ts` fails if a token is given a colour of its own. [THEMING.md](https://github.com/RoxyAPI/ui/blob/main/packages/ui/THEMING.md) covers every token, its light and dark default and what it paints. The [UI components page](https://roxyapi.com/docs/ui) lists every component, and the [AI chat widgets tutorial](https://roxyapi.com/docs/tutorials/ai-chat-widgets) covers the same pattern for other chat frameworks and model vendors.
 
 ## MCP Tool Discovery
 
@@ -153,34 +153,41 @@ Available product slugs: `astrology`, `vedic-astrology`, `forecast`, `human-desi
 | **80-150 tools** | Works but slower; model may occasionally pick the wrong tool | Increase `MAX_TOOL_STEPS` if needed |
 | **200+ tools** | Where the full default catalogue sits, all 14 products enabled. Capable models handle it; smaller ones start picking the wrong tool as descriptions compete for context | Trim `ROXYAPI_PRODUCTS` to the domains you actually need |
 
-> **Tip**: If you're building a focused product (e.g. a tarot-only app), set `ROXYAPI_PRODUCTS=tarot` to give the LLM fewer options and faster, more accurate tool selection.
+> **Tip**: If you are building a focused product (e.g. a tarot-only app), set `ROXYAPI_PRODUCTS=tarot` to give the LLM fewer options and faster, more accurate tool selection.
 
 ## Architecture
 
 ```
 src/
 ├── app/
-│   ├── api/chat/route.ts    # Chat endpoint, streamText + MCP tools
-│   ├── layout.tsx            # Root layout, metadata, JSON-LD SEO
+│   ├── api/chat/route.ts     # Chat endpoint, streamText + MCP tools
+│   ├── layout.tsx            # Root layout, the two typefaces, theme provider, metadata
 │   ├── page.tsx              # Home page with structured data
-│   └── globals.css           # Space theme, star animations, glass UI
+│   └── globals.css           # The design system: light palette, dark palette, widget bridge
 ├── components/
 │   ├── chat/
-│   │   ├── ChatPanel.tsx     # Main chat container with useChat
-│   │   ├── MessageList.tsx   # Messages, typing indicator, suggestions
-│   │   ├── MessageBubble.tsx # Markdown rendering for assistant messages
-│   │   ├── MessageInput.tsx  # Input field + send/stop button
+│   │   ├── ChatShell.tsx     # Header, sidebar, transcript, conversation switching
+│   │   ├── ChatHeader.tsx    # Wordmark, connected domains, theme and view controls
+│   │   ├── ChatSidebar.tsx   # New chat, recent conversations, connected list
+│   │   ├── ChatPanel.tsx     # One conversation: transcript, composer, attribution
+│   │   ├── MessageList.tsx   # Transcript, opening screen, four openers
+│   │   ├── MessageBubble.tsx # One turn, markdown for the reply
+│   │   ├── MessageInput.tsx  # Growing composer, send and stop
 │   │   └── ToolWidget.tsx    # Draws the components a tool result earned
-│   └── StarField.tsx         # Animated star background (CSS)
+│   ├── theme-provider.tsx    # Light and dark, remembered
+│   ├── theme-toggle.tsx      # The control in the header
+│   └── StarField.tsx         # The night sky, seeded so it hydrates cleanly
 └── lib/
     ├── ai.ts                 # Multi-provider LLM config (Gemini/Claude/GPT)
     ├── mcp.ts                # MCP client, connects to RoxyAPI and caches all tools
     ├── prompts.ts            # System prompt, personality, capabilities, multilingual
-    └── tool-widgets.ts       # Maps a tool result to the component that renders it
+    ├── tool-widgets.ts       # Maps a tool result to the component that renders it
+    ├── conversations.ts      # Recent conversations, kept in the browser only
+    └── domains.ts            # The reading name for each connected product
 ```
 
 Key design decisions:
-- **MCP over REST**: tools are auto-discovered from RoxyAPI's MCP servers. No manual endpoint definitions needed.
+- **MCP over REST**: tools are auto-discovered from the RoxyAPI MCP servers. No manual endpoint definitions needed.
 - **Persistent MCP connections**: connections are initialized once and cached. No per-request overhead.
 - **Server-side only**: all API keys stay in the Next.js API route. Nothing leaks to the client bundle.
 - **Model agnostic**: Vercel AI SDK v6 abstracts the LLM. Swap Gemini for Claude or GPT with one env var.
@@ -188,15 +195,17 @@ Key design decisions:
 
 ## Features
 
-- **Tool result widgets**: a tarot card, natal wheel, or bodygraph renders above the interpretation, themed to the chat
-- **Markdown responses**: assistant messages render with full markdown support (headings, bold, lists, code blocks, tables, links)
-- **Typing indicator**: animated dots show during the submitted and streaming phases until text arrives
+- **Tool result widgets**: a tarot card, natal wheel, or bodygraph renders above the interpretation, in the palette you chose
+- **Light and dark**: dark on a first visit, one control in the header, and the choice is remembered. The drawn charts follow the switch
+- **Conversation history**: recent conversations listed in the sidebar, kept in the browser under one key and bounded at twenty. Nothing is sent anywhere and there is no account
+- **Collapsible sidebar**: a panel on a wide screen, a drawer on a phone, closed with the escape key
+- **Markdown responses**: assistant messages render with full markdown support (headings, bold, lists, code blocks, tables, links). A wide table scrolls in its own frame
+- **A composer that behaves**: grows with what you type up to a cap, enter sends, shift and enter makes a newline, and a second submit cannot start a second turn
 - **Stop button**: cancel a long-running response mid-stream
-- **Sticky input**: chat input stays pinned at the bottom; only the message body scrolls
 - **Rate limiting**: built-in per-IP rate limiter (20 req/min) to protect LLM API credits
 - **Input validation**: request body validation with message count cap to prevent abuse
 - **Security headers**: X-Content-Type-Options, X-Frame-Options, Referrer-Policy
-- **Accessible**: ARIA labels on interactive elements, `role="log"` on the message list
+- **Accessible**: zero axe violations in both themes, a visible focus ring on every control, `role="log"` on the transcript, and reduced motion respected
 
 ## Stack
 
@@ -207,7 +216,9 @@ Key design decisions:
 | Data | [RoxyAPI](https://roxyapi.com): 200+ tools, 13 spiritual domains plus location, Remote [MCP](https://roxyapi.com/docs/mcp) |
 | Tool Discovery | [MCP](https://modelcontextprotocol.io) via `@ai-sdk/mcp`, auto-discovers tools at runtime |
 | Widgets | [@roxyapi/ui-react](https://www.npmjs.com/package/@roxyapi/ui-react): charts, spreads, and tables that render a tool result |
-| UI | [Tailwind CSS v4](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com) + custom space theme |
+| UI | [Tailwind CSS v4](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com), one palette in two themes |
+| Type | Fraunces and Inter, self hosted through `next/font` |
+| Theming | [next-themes](https://github.com/pacocoursey/next-themes), dark by default, remembered |
 | SEO | Server-rendered JSON-LD (schema.org), Open Graph, keyword meta tags |
 
 ## Customize
@@ -216,7 +227,11 @@ Key design decisions:
 
 **Which domains**: set the `ROXYAPI_PRODUCTS` env var, or edit the product list in [`src/lib/mcp.ts`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/lib/mcp.ts).
 
-**UI theme**: components are in [`src/components/chat/`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/components/chat/). Star field, colors, and glass effects are in [`globals.css`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/app/globals.css). Everything is Tailwind, no CSS-in-JS.
+**Colours**: the whole product is two blocks in [`globals.css`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/app/globals.css), `:root` for light and `.dark` for dark. Edit those and everything follows, the drawn charts included, because every `--roxy-*` token is a reference into the same palette. `npm test` fails if a token goes missing from one theme.
+
+**Typefaces**: two families in [`layout.tsx`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/app/layout.tsx), loaded through `next/font` as CSS variables. Swap a face there and in the matching line of `globals.css`.
+
+**Layout and copy**: the screen is in [`src/components/chat/`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/components/chat/). The opening screen and its four openers are in `MessageList.tsx`. Everything is Tailwind, no CSS-in-JS.
 
 **Tool step limit**: set `MAX_TOOL_STEPS` in your env to control how many tool-call round-trips the LLM can make per message (default: 5).
 
@@ -261,13 +276,13 @@ npm run build && npm start
 
 The default setup exposes ~200 tools from 14 RoxyAPI products (13 spiritual domains plus location for geocoding). Modern models like Gemini 2.5 Flash, GPT-5 mini, and Claude Haiku 4.5 handle this well. If you see the model picking the wrong tool or making excessive tool calls, reduce the product count via `ROXYAPI_PRODUCTS`, fewer tools means faster, more accurate selection.
 
-### The chatbot is unstable / sometimes doesn't respond
+### The chatbot is unstable or sometimes does not respond
 
-This is almost always caused by MCP initialization timing out. The default `maxDuration` is 60 seconds, which should be enough. If you're on Vercel's Hobby plan (10s limit), upgrade to Pro or reduce the number of products. Also check that your `ROXYAPI_KEY` is valid.
+This is almost always caused by MCP initialization timing out. The default `maxDuration` is 60 seconds, which should be enough. If you are on the Vercel Hobby plan (10s limit), upgrade to Pro or reduce the number of products. Also check that your `ROXYAPI_KEY` is valid.
 
 ### Do MCP connections stay open forever?
 
-MCP connections persist for the lifetime of your server process. On Vercel, they're automatically refreshed when your function recycles after a period of inactivity. You don't need to manage connection lifecycle manually.
+MCP connections persist for the lifetime of your server process. On Vercel, they are refreshed automatically when your function recycles after a period of inactivity. You do not need to manage connection lifecycle manually.
 
 ### Why is the first message slow?
 
@@ -287,7 +302,7 @@ ROXYAPI_PRODUCTS=tarot,numerology
 
 ### Is this free to use?
 
-The code is free and open source. You'll need a [RoxyAPI key](https://roxyapi.com/pricing) (you can [request a free test key](https://roxyapi.com/contact) to try it out) and an LLM provider key (Gemini has a free tier).
+The code is free and open source. You will need a [RoxyAPI key](https://roxyapi.com/pricing) (you can [request a free test key](https://roxyapi.com/contact) to try it out) and an LLM provider key (Gemini has a free tier).
 
 ## Links
 

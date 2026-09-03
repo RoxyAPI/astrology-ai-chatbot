@@ -6,7 +6,7 @@ import { DEFAULT_PRODUCTS } from '@/lib/mcp';
 // real deployments: a chart domain wired into MCP but absent from the prompt (the
 // model never offers it), and a missing "resolve location first" rule (the model
 // calls a chart tool with no timezone, or tries to geocode a landmark, and the
-// chart fails). These assertions are coarse on purpose — they guard the contract,
+// chart fails). These assertions are coarse on purpose: they guard the contract,
 // not the wording.
 
 describe('getSystemPrompt', () => {
