@@ -1,97 +1,105 @@
 "use client";
 
 import { useChat } from "@ai-sdk/react";
+import type { UIMessage } from "ai";
 import { DefaultChatTransport } from "ai";
-import { useMemo, useState } from "react";
-import { MessageList } from "./MessageList";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { MessageInput } from "./MessageInput";
-import { Sparkles } from "lucide-react";
+import { MessageList } from "./MessageList";
 
-export function ChatPanel() {
+interface ChatPanelProps {
+  /** The conversation this transcript belongs to. The shell re-keys on it. */
+  id: string;
+  /** Turns restored from the browser, if this conversation has been had before. */
+  initialMessages?: UIMessage[];
+  onPersist: (id: string, messages: UIMessage[]) => void;
+}
+
+/**
+ * One conversation: the transcript, the composer under it, and the attribution below that.
+ *
+ * @remarks The transport is built once per mount rather than per render, which keeps a strict mode
+ * double mount and a hot reload from talking over each other. A turn is written to the browser only
+ * once it has finished arriving, so a stream does not write on every chunk.
+ */
+export function ChatPanel({ id, initialMessages, onPersist }: ChatPanelProps) {
   const [input, setInput] = useState("");
-  // Memoize transport per component instance to avoid sharing state across
-  // React 19 strict-mode double-mounts and to avoid stale closures on HMR.
-  const transport = useMemo(
-    () => new DefaultChatTransport({ api: "/api/chat" }),
-    [],
-  );
-  const { messages, sendMessage, stop, status } = useChat({ transport });
+  const composer = useRef<HTMLTextAreaElement>(null);
+  const submitting = useRef(false);
 
-  const isActive = status === "submitted" || status === "streaming";
+  const transport = useMemo(() => new DefaultChatTransport({ api: "/api/chat" }), []);
+  const { messages, sendMessage, stop, status } = useChat({
+    id,
+    messages: initialMessages,
+    transport,
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (input.trim() && status === "ready") {
-      sendMessage({ text: input });
+  const busy = status === "submitted" || status === "streaming";
+
+  // A second submit lands before the status has moved off ready, so the guard is a ref rather than
+  // the status: two quick presses of the send key would otherwise start two turns.
+  useEffect(() => {
+    if (!busy) submitting.current = false;
+  }, [busy]);
+
+  useEffect(() => {
+    if (status !== "ready" || messages.length === 0) return;
+    onPersist(id, messages);
+  }, [status, messages, id, onPersist]);
+
+  const send = useCallback(
+    (text: string) => {
+      const trimmed = text.trim();
+      if (!trimmed || busy || submitting.current) return;
+      submitting.current = true;
       setInput("");
-    }
-  };
+      sendMessage({ text: trimmed });
+    },
+    [busy, sendMessage],
+  );
+
+  const fillComposer = useCallback((text: string) => {
+    setInput(text);
+    composer.current?.focus();
+  }, []);
 
   return (
-    <div className="relative z-10 flex flex-col h-screen max-w-3xl mx-auto overflow-hidden">
-      <header className="shrink-0 flex items-center gap-3 px-6 py-4 header-border">
-        <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-roxy/15 ring-1 ring-roxy/25">
-          <Sparkles className="w-5 h-5 text-roxy" />
-        </div>
-        <div>
-          <h1 className="text-lg font-semibold text-zinc-100">
-            AI Astrology Chatbot
-          </h1>
-          <p className="text-sm text-zinc-500">
-            Western · Vedic · Tarot · Numerology · Biorhythm · I Ching · Dreams · Crystals
-          </p>
-        </div>
-      </header>
-
+    <>
       <MessageList
         messages={messages}
-        isLoading={isActive}
-        onSuggestionClick={(text) => {
-          sendMessage({ text });
-        }}
+        busy={busy}
+        failed={status === "error"}
+        onOpener={fillComposer}
       />
 
-      {status === "error" && (
-        <div className="shrink-0 px-6 py-2 text-sm text-red-400 bg-red-900/20">
-          Something went wrong. Please try again.
-        </div>
-      )}
-
-      <div className="shrink-0 bottom-panel">
-        <MessageInput
-          input={input}
-          setInput={setInput}
-          handleSubmit={handleSubmit}
-          isLoading={isActive}
-          onStop={stop}
-        />
-
-        <footer className="px-6 pb-3 text-center text-xs text-zinc-500 space-y-1">
-          <p>
+      <div className="bg-background shrink-0 border-t">
+        <div className="thread-measure pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+          <MessageInput
+            ref={composer}
+            input={input}
+            setInput={setInput}
+            onSend={() => send(input)}
+            onStop={stop}
+            busy={busy}
+          />
+          <p className="text-muted-foreground mt-2 text-center text-xs">
             Powered by{" "}
             <a
               href="https://roxyapi.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-roxy/80 hover:text-roxy transition-colors"
+              // Underlined at rest rather than on hover: a link inside a line of text that is only
+              // a colour apart from it is one a colour blind reader cannot find.
+              className="text-primary underline underline-offset-2"
             >
               RoxyAPI
             </a>
-            {" · "}
-            <a
-              href="https://github.com/RoxyAPI/astrology-ai-chatbot"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-zinc-300 transition-colors"
-            >
-              Clone this chatbot
-            </a>
+            <span className="hidden sm:inline">
+              . Real astronomical calculations, not AI hallucinations.
+            </span>
           </p>
-          <p className="text-zinc-600">
-            Real astronomical calculations, not AI hallucinations.
-          </p>
-        </footer>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

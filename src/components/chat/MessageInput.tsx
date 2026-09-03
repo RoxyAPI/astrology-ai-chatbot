@@ -1,57 +1,87 @@
 "use client";
 
-import { Send, Square } from "lucide-react";
+import { ArrowUp, Square } from "lucide-react";
+import { type RefObject, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
 interface MessageInputProps {
+  ref: RefObject<HTMLTextAreaElement | null>;
   input: string;
   setInput: (value: string) => void;
-  handleSubmit: (e: React.FormEvent) => void;
-  isLoading: boolean;
+  onSend: () => void;
   onStop: () => void;
+  busy: boolean;
 }
 
-export function MessageInput({
-  input,
-  setInput,
-  handleSubmit,
-  isLoading,
-  onStop,
-}: MessageInputProps) {
+/** How tall the field grows before it starts scrolling instead. About six lines. */
+const MAX_HEIGHT = 160;
+
+/**
+ * The composer.
+ *
+ * @remarks Height is set from the content rather than left to the browser, because the CSS that
+ * does this natively is not in every browser yet and a field that grows in one and not another is
+ * the kind of difference a forker inherits without being told.
+ *
+ * The send key is guarded against an input method editor: while a Japanese or Chinese candidate is
+ * being chosen, the key that confirms the candidate is the same key that sends, and sending there
+ * would cut the word in half.
+ */
+export function MessageInput({ ref, input, setInput, onSend, onStop, busy }: MessageInputProps) {
+  useEffect(() => {
+    const field = ref.current;
+    if (!field) return;
+    field.style.height = "0px";
+    field.style.height = `${Math.min(field.scrollHeight, MAX_HEIGHT)}px`;
+  }, [input, ref]);
+
   return (
     <form
-      onSubmit={handleSubmit}
-      className="flex items-center gap-3 px-6 py-4"
+      className="flex items-end gap-2"
+      onSubmit={(event) => {
+        event.preventDefault();
+        onSend();
+      }}
     >
-      <label htmlFor="chat-input" className="sr-only">
-        Message
-      </label>
-      <input
-        id="chat-input"
+      <Textarea
+        ref={ref}
         value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="Ask about your birth chart, draw a tarot card, interpret a dream..."
-        disabled={isLoading}
-        autoComplete="off"
-        className="flex-1 rounded-xl border border-white/15 bg-white/8 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-roxy/40 focus:border-roxy/30 disabled:opacity-50 transition-colors"
+        onChange={(event) => setInput(event.target.value)}
+        onKeyDown={(event) => {
+          if (event.key !== "Enter" || event.shiftKey || event.nativeEvent.isComposing) return;
+          event.preventDefault();
+          onSend();
+        }}
+        rows={1}
+        aria-label="Message"
+        // Short enough to sit on one line on a phone. A placeholder that wraps is a placeholder
+        // with its second line cut off, because the field is sized from its value.
+        placeholder="Ask for a reading"
+        className="field-sizing-fixed bg-card max-h-40 min-h-11 resize-none py-2.5"
       />
-      {isLoading ? (
-        <button
+
+      {busy ? (
+        <Button
           type="button"
+          size="icon-lg"
+          variant="outline"
+          aria-label="Stop the reply"
           onClick={onStop}
-          aria-label="Stop generating"
-          className="flex items-center justify-center w-11 h-11 rounded-xl bg-red-500/80 text-white hover:bg-red-500 transition-all shrink-0 cursor-pointer"
+          className="size-11 shrink-0"
         >
-          <Square className="w-4 h-4" />
-        </button>
+          <Square className="size-4" />
+        </Button>
       ) : (
-        <button
+        <Button
           type="submit"
+          size="icon-lg"
+          aria-label="Send"
           disabled={input.trim().length === 0}
-          aria-label="Send message"
-          className="flex items-center justify-center w-11 h-11 rounded-xl bg-roxy-dim text-white hover:brightness-110 disabled:bg-white/10 disabled:text-zinc-600 transition-all shrink-0 cursor-pointer"
+          className="size-11 shrink-0"
         >
-          <Send className="w-4 h-4" />
-        </button>
+          <ArrowUp className="size-4" />
+        </Button>
       )}
     </form>
   );

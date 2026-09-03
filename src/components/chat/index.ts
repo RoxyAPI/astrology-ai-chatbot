@@ -1,1 +1,1 @@
-export { ChatPanel } from "./ChatPanel";
+export { ChatShell } from "./ChatShell";

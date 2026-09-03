@@ -1,101 +1,108 @@
 "use client";
 
 import type { UIMessage } from "ai";
+import { Loader2 } from "lucide-react";
 import { useEffect, useRef } from "react";
+import { Button } from "@/components/ui/button";
 import { toolWidgetsFor } from "@/lib/tool-widgets";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { MessageBubble } from "./MessageBubble";
-import { Sparkles, Star, Moon, Sun, Flame, Gem, BookOpen } from "lucide-react";
 
-const suggestions = [
-  { icon: Sun, text: "Aries daily horoscope", color: "text-orange-400" },
-  { icon: Star, text: "Draw me a tarot card", color: "text-amber-400" },
-  { icon: Flame, text: "Life path number for 1995-03-22", color: "text-red-400" },
-  { icon: Moon, text: "What moon phase is it?", color: "text-blue-400" },
-  { icon: Sparkles, text: "Read my Vedic birth chart", color: "text-teal-400" },
-  { icon: Gem, text: "What crystal helps with anxiety?", color: "text-teal-300" },
-  { icon: BookOpen, text: "I dreamed about flying", color: "text-emerald-400" },
+/**
+ * Four ways in, filled into the composer rather than sent, so the first thing a reader does is read
+ * the question and change it. The lead examples are the ones anybody can answer from their own
+ * birthday.
+ */
+const OPENERS = [
+  "Draw a card for today",
+  "Read my birth chart",
+  "Where is the moon right now?",
+  "Life path number for 22 March 1995",
 ];
 
 interface MessageListProps {
   messages: UIMessage[];
-  isLoading: boolean;
-  onSuggestionClick: (text: string) => void;
+  busy: boolean;
+  failed: boolean;
+  onOpener: (text: string) => void;
 }
 
-export function MessageList({
-  messages,
-  isLoading,
-  onSuggestionClick,
-}: MessageListProps) {
-  const bottomRef = useRef<HTMLDivElement>(null);
+export function MessageList({ messages, busy, failed, onOpener }: MessageListProps) {
+  const end = useRef<HTMLDivElement>(null);
 
-  // Check whether the last assistant message is showing anything yet. A chart from
-  // a tool call lands before the prose, so it counts as output too and the typing
-  // indicator gives way to it.
-  const lastMessage = messages[messages.length - 1];
-  const hasAssistantOutput =
-    lastMessage?.role === "assistant" &&
-    (lastMessage.parts.some((p) => p.type === "text" && p.text.length > 0) ||
-      toolWidgetsFor(lastMessage).length > 0);
+  // The wait indicator is only for the pause before anything shows. A drawing from a tool call
+  // arrives before the words written about it, so it counts as showing something and the indicator
+  // gives way to it rather than spinning beside a finished answer.
+  const last = messages[messages.length - 1];
+  const showing =
+    last?.role === "assistant" &&
+    (last.parts.some((part) => part.type === "text" && part.text.length > 0) ||
+      toolWidgetsFor(last).length > 0);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isLoading]);
+    end.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, busy]);
 
   if (messages.length === 0) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center px-6 gap-8">
-        <div className="text-center">
-          <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-2xl bg-roxy/10 ring-1 ring-roxy/25">
-            <Sparkles className="w-8 h-8 text-roxy" />
+      <div className="thin-scroll min-h-0 flex-1 overflow-y-auto" role="log" aria-live="polite">
+        {/* Centred in the column rather than pinned to the top of it, so an empty chat reads as a
+            composed opening screen instead of a page waiting for the rest of itself. */}
+        <div className="flex min-h-full items-center">
+          <div className="thread-measure py-10">
+            <div className="max-w-xl space-y-6">
+              <div className="space-y-3">
+                <h2 className="text-2xl leading-snug sm:text-3xl">
+                  What would you like to look at?
+                </h2>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  Every reading here is measured first and interpreted second, so the chart you get
+                  back is the sky as it actually was. Ask anything, or start with one of these.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {OPENERS.map((opener) => (
+                  <Button
+                    key={opener}
+                    variant="outline"
+                    size="lg"
+                    className="h-auto py-2 text-left whitespace-normal"
+                    onClick={() => onOpener(opener)}
+                  >
+                    {opener}
+                  </Button>
+                ))}
+              </div>
+            </div>
           </div>
-          <h2 className="text-2xl font-bold text-zinc-100 mb-2">
-            What would you like to explore?
-          </h2>
-          <p className="text-zinc-500 max-w-md">
-            Get your daily horoscope, draw tarot cards, calculate your life path
-            number, explore your birth chart, discover crystal properties, or
-            interpret a dream.
-          </p>
-        </div>
-        <div className="flex flex-wrap justify-center gap-2 max-w-lg">
-          {suggestions.map((s) => (
-            <button
-              key={s.text}
-              type="button"
-              onClick={() => onSuggestionClick(s.text)}
-              className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 text-sm text-zinc-300 hover:bg-white/5 hover:border-roxy/30 transition-colors cursor-pointer"
-            >
-              <s.icon className={`w-4 h-4 ${s.color}`} />
-              {s.text}
-            </button>
-          ))}
         </div>
       </div>
     );
   }
 
   return (
-    <ScrollArea className="flex-1 min-h-0 px-6 py-4" role="log" aria-live="polite">
-      <div className="space-y-4">
-        {messages.map((message) => (
-          <MessageBubble key={message.id} message={message} />
-        ))}
-        {isLoading && !hasAssistantOutput && (
-          <div className="flex gap-3">
-            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-roxy/15 ring-1 ring-roxy/25 shrink-0">
-              <Sparkles className="w-4 h-4 text-roxy" />
-            </div>
-            <div className="flex items-center gap-1 py-3">
-              <span className="w-2 h-2 rounded-full bg-roxy/60 animate-bounce" />
-              <span className="w-2 h-2 rounded-full bg-roxy/60 animate-bounce [animation-delay:150ms]" />
-              <span className="w-2 h-2 rounded-full bg-roxy/60 animate-bounce [animation-delay:300ms]" />
-            </div>
-          </div>
-        )}
-        <div ref={bottomRef} />
+    <div className="thin-scroll min-h-0 flex-1 overflow-y-auto" role="log" aria-live="polite">
+      <div className="thread-measure py-6">
+        <div className="space-y-6">
+          {messages.map((message) => (
+            <MessageBubble key={message.id} message={message} />
+          ))}
+        </div>
+
+        {busy && !showing ? (
+          <p className="text-muted-foreground mt-6 flex items-center gap-2 text-sm">
+            <Loader2 className="size-4 animate-spin" />
+            Reading
+          </p>
+        ) : null}
+
+        {failed ? (
+          <p className="text-destructive mt-6 text-sm">
+            That reply did not come through. Ask again.
+          </p>
+        ) : null}
+
+        <div ref={end} />
       </div>
-    </ScrollArea>
+    </div>
   );
 }

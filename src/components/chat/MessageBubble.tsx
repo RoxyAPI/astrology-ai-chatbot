@@ -1,106 +1,72 @@
 "use client";
 
 import type { UIMessage } from "ai";
-import { Sparkles, User } from "lucide-react";
-import ReactMarkdown from "react-markdown";
+import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { toolWidgetsFor } from "@/lib/tool-widgets";
 import { ToolWidget } from "./ToolWidget";
 
-interface MessageBubbleProps {
-  message: UIMessage;
-}
+/**
+ * One turn in the transcript.
+ *
+ * @remarks The person speaks in a box and the reply does not. A reading is the longest thing on the
+ * screen and the drawing that comes with it is already a card, so boxing the words around it would
+ * put a card inside a card and leave the chart the smaller of the two. The question keeps its box
+ * because it is short, and because the eye needs the turns to be countable.
+ *
+ * A message is an array of parts, not a string. Reaching for a `content` field is the mistake this
+ * version of the streaming library invites, and it fails silently by rendering nothing.
+ */
+export function MessageBubble({ message }: { message: UIMessage }) {
+  const isPerson = message.role === "user";
 
-export function MessageBubble({ message }: MessageBubbleProps) {
-  const isUser = message.role === "user";
-
-  const textContent = message.parts
-    .filter((part): part is Extract<typeof part, { type: "text" }> => part.type === "text")
+  const text = message.parts
+    .filter((part) => part.type === "text")
     .map((part) => part.text)
     .join("");
 
   const widgets = toolWidgetsFor(message);
 
-  // A chart lands before the interpretation the model is still writing, so a
-  // message counts as empty only when it has neither.
-  if (!textContent && widgets.length === 0) return null;
+  // A drawing arrives before the interpretation still being written, so a message is empty only
+  // when it has neither.
+  if (!text && widgets.length === 0) return null;
+
+  if (isPerson) {
+    return (
+      <div className="flex justify-end">
+        <p className="bg-card text-card-foreground max-w-[85%] rounded-2xl border px-4 py-2.5 text-[0.9375rem] leading-relaxed whitespace-pre-wrap">
+          {text}
+        </p>
+      </div>
+    );
+  }
 
   return (
-    <div className={`flex gap-3 ${isUser ? "flex-row-reverse" : ""}`}>
-      <div
-        className={`flex items-center justify-center w-8 h-8 rounded-lg shrink-0 ${
-          isUser
-            ? "bg-white/10 ring-1 ring-white/10"
-            : "bg-roxy/15 ring-1 ring-roxy/25"
-        }`}
-      >
-        {isUser ? (
-          <User className="w-4 h-4 text-zinc-400" />
-        ) : (
-          <Sparkles className="w-4 h-4 text-roxy" />
-        )}
-      </div>
-      <div
-        className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
-          isUser
-            ? "bg-roxy-dim/80 text-white rounded-tr-md whitespace-pre-wrap"
-            : "bg-white/5 ring-1 ring-white/8 text-zinc-200 rounded-tl-md"
-        }`}
-      >
-        <ToolWidget widgets={widgets} />
-        {isUser ? (
-          textContent
-        ) : (
-          <ReactMarkdown
+    <div>
+      <ToolWidget widgets={widgets} />
+      {text ? (
+        <div className="prose-reply">
+          <Markdown
             remarkPlugins={[remarkGfm]}
             components={{
-              p: ({ children }) => <p className="mb-3 last:mb-0">{children}</p>,
-              strong: ({ children }) => <strong className="font-semibold text-zinc-100">{children}</strong>,
-              em: ({ children }) => <em className="italic text-zinc-300">{children}</em>,
-              h1: ({ children }) => <h1 className="text-lg font-bold text-zinc-100 mb-2 mt-3 first:mt-0">{children}</h1>,
-              h2: ({ children }) => <h2 className="text-base font-bold text-zinc-100 mb-2 mt-3 first:mt-0">{children}</h2>,
-              h3: ({ children }) => <h3 className="text-sm font-bold text-zinc-100 mb-1 mt-2 first:mt-0">{children}</h3>,
-              ul: ({ children }) => <ul className="list-disc list-inside mb-3 last:mb-0 space-y-1">{children}</ul>,
-              ol: ({ children }) => <ol className="list-decimal list-inside mb-3 last:mb-0 space-y-1">{children}</ol>,
-              li: ({ children }) => <li className="text-zinc-200">{children}</li>,
-              code: ({ className, children, ...props }) => {
-                const isBlock = className?.includes("language-");
-                if (isBlock) {
-                  return (
-                    <code className="block bg-white/5 rounded-lg px-3 py-2 my-2 text-xs font-mono overflow-x-auto text-zinc-300" {...props}>
-                      {children}
-                    </code>
-                  );
-                }
-                return (
-                  <code className="bg-white/10 rounded px-1.5 py-0.5 text-xs font-mono text-roxy" {...props}>
-                    {children}
-                  </code>
-                );
-              },
-              pre: ({ children }) => <pre className="mb-3 last:mb-0">{children}</pre>,
-              blockquote: ({ children }) => (
-                <blockquote className="border-l-2 border-roxy/40 pl-3 my-2 text-zinc-400 italic">{children}</blockquote>
+              // A wide table scrolls in its own frame instead of widening the reply. Everything
+              // else is styled once, in the stylesheet.
+              table: ({ children }) => (
+                <div className="table-scroll">
+                  <table>{children}</table>
+                </div>
               ),
               a: ({ href, children }) => (
-                <a href={href} target="_blank" rel="noopener noreferrer" className="text-roxy hover:underline">
+                <a href={href} target="_blank" rel="noopener noreferrer">
                   {children}
                 </a>
               ),
-              hr: () => <hr className="border-white/10 my-3" />,
-              table: ({ children }) => (
-                <div className="overflow-x-auto mb-3 last:mb-0">
-                  <table className="min-w-full text-xs">{children}</table>
-                </div>
-              ),
-              th: ({ children }) => <th className="px-2 py-1 text-left font-semibold text-zinc-100 border-b border-white/10">{children}</th>,
-              td: ({ children }) => <td className="px-2 py-1 border-b border-white/5">{children}</td>,
             }}
           >
-            {textContent}
-          </ReactMarkdown>
-        )}
-      </div>
+            {text}
+          </Markdown>
+        </div>
+      ) : null}
     </div>
   );
 }
