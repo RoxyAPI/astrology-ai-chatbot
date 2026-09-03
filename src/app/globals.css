@@ -7,37 +7,35 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-app);
-  --font-mono: var(--font-app-mono);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
+  --color-foreground-soft: var(--foreground-soft);
   --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-ink: var(--destructive-ink);
+  --color-success: var(--success);
+  --color-success-ink: var(--success-ink);
+  --color-warning: var(--warning);
+  --color-warning-ink: var(--warning-ink);
+  --color-info: var(--info);
+  --color-info-ink: var(--info-ink);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-app);
+  --font-display: var(--font-app-display);
+  --font-mono: var(--font-app-mono);
+
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -45,86 +43,91 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
-  /* Roxy brand teal. Declared in :root below and referenced here, because a value in
-     this block is inlined into utilities and cannot be read back at runtime, and the
-     widget bridge has to read it. */
-  --color-roxy: var(--accent-brand);
-  --color-roxy-dim: var(--accent-brand-dim);
 }
 
+/*
+Ink and gold on warm paper by day, deep night sky after dark. One palette, two blocks, every value
+picked rather than inverted, and `.dark` is written by the theme provider. Recolouring the whole
+chatbot means editing these two blocks and nothing else. `tests/design-tokens.test.ts` fails when a
+token is missing from either block, so a half finished recolour never reaches a screen.
+
+Contrast is measured against the CARD rather than the page, because the card is the darker surface
+in light and the lighter one in dark, and a drawn result is almost entirely card.
+*/
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --radius: 0.875rem;
+  --header-h: 3.5rem;
 
-  --accent-brand: oklch(0.70 0.15 195);
-  --accent-brand-dim: oklch(0.65 0.14 195);
-
-  /* The faces, named once for the utilities, the prose and the drawings alike. The root
-     layout loads Inter under this exact family name, so a fork that swaps the face
-     changes it there and here. No monospace face is loaded, so that stack is the one the
+  /* The faces, named once for the utilities, the prose and the drawings alike. The root layout
+     loads the two families under the `-var` names, so a fork that swaps a face changes it there and
+     the rest of the stylesheet follows. No monospace face is loaded, so that stack is the one the
      system already has. */
-  --font-app: Inter, "Inter Fallback", system-ui, sans-serif;
+  --font-app: var(--font-sans-var), system-ui, sans-serif;
+  --font-app-display: var(--font-display-var), Georgia, serif;
   --font-app-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
+  --background: #FAF6EC;
+  --foreground: #14232E;
+  --card: #F1EADB;
+  --card-foreground: #14232E;
+  --popover: #F1EADB;
+  --popover-foreground: #14232E;
+  --primary: #254B5A;
+  --primary-foreground: #F6F2E6;
+  --secondary: #F1EADB;
+  --secondary-foreground: #14232E;
+  --muted: #F1EADB;
+  --muted-foreground: #5C6A76;
+  --accent: #B89D62;
+  --accent-foreground: #14232E;
+  --destructive: #B23A38;
+  --border: #E4DBC6;
+  --input: #E4DBC6;
+  --ring: #254B5A;
+
+  /* One step softer than the foreground and still stronger than the muted ink, for a label, a
+     column head, or a mark that has to stay readable beside its value. */
+  --foreground-soft: #2D3C47;
+
+  /* The status scale. `--destructive` above is one of the four and keeps its name. Each carries an
+     `-ink` partner, which is the text colour for a TINT of that status rather than for the status
+     colour itself, and every pair clears 4.5:1 on a tint of up to a quarter strength. */
+  --success: #3F7A55;
+  --success-ink: #2B5A3C;
+  --warning: #B0702A;
+  --warning-ink: #7C4A10;
+  --destructive-ink: #8C2B29;
+  --info: #3A6B86;
+  --info-ink: #2B5265;
+
   /*
-  The bridge to the components that draw a tool result. Every one of them reads
-  `--roxy-*`, so pointing those at the palette above is the whole of theming them, and
-  restyling a component is never the answer. Every value here is a reference rather
-  than a colour, so the palette moves the whole set and there is no second copy to keep
-  in step. Every token, its light and dark default and what it paints:
+  The bridge to the components that draw a tool result. Every one of them reads `--roxy-*`, so
+  pointing those at the palette above is the whole of theming them, and restyling a component is
+  never the answer. Every value here is a reference rather than a colour, so the dark block moves
+  the whole set with everything else and there is no second copy to keep in step. Every token, its
+  light and dark default and what it paints:
   https://github.com/RoxyAPI/ui/blob/main/packages/ui/THEMING.md
 
-  The surface pairing is the one worth reading twice. `--roxy-surface` is the card a
-  drawing paints and nearly every component reaches for it, while `--roxy-bg` is only
-  the field behind an input, the sheet under a suggestion list and the ink on a filled
-  button. Mapping them the other way round puts a pale sheet on the starfield and hides
-  every button label. Both stay opaque: a drawn table pins one column while the rest
-  scrolls under it, and a see through column smears.
+  The surface pairing is the one worth reading twice. `--roxy-surface` is the card a drawing paints
+  and nearly every component reaches for it, so it takes the card, which is the opaque step between
+  the page and a panel. `--roxy-bg` is only the field behind an input, the sheet under a location
+  suggestion list and the ink on a filled button. Mapping them the other way round puts a pale sheet
+  on the night sky and hides every button label. Both stay opaque: a drawn table pins one column
+  while the rest scrolls under it, and a see through column smears.
 
-  Three are deliberately absent. `--roxy-accent-ink` and `--roxy-ring` derive from the
-  accent, and the derived ring is the brand teal at 45 percent, which is the focus
-  treatment the chat input already gives itself. `--roxy-heat` derives from the danger
-  colour the same way. Setting any of the three breaks a derivation the library depends
-  on, so a test asserts they stay unset.
+  Three are deliberately absent. `--roxy-accent-ink` and `--roxy-ring` derive from the accent, and
+  the derived ring is the app accent at 45 percent, which is the focus treatment the composer
+  already gives itself. `--roxy-heat` derives from the danger colour the same way. Setting any of
+  the three breaks a derivation the library depends on, so a test asserts they stay unset.
   */
   --roxy-bg: var(--background);
-  --roxy-surface: var(--surface-panel);
-  --roxy-fg: var(--foreground-soft);
-  --roxy-primary: var(--foreground);
-  --roxy-secondary: var(--muted-foreground);
+  --roxy-surface: var(--card);
+  --roxy-fg: var(--card-foreground);
+  --roxy-primary: var(--card-foreground);
+  --roxy-secondary: var(--foreground-soft);
   --roxy-muted: var(--muted-foreground);
   --roxy-border: var(--border);
-  --roxy-accent: var(--accent-brand);
+  --roxy-accent: var(--primary);
 
   --roxy-success: var(--success);
   --roxy-success-fg: var(--success-ink);
@@ -136,118 +139,227 @@
   --roxy-info-fg: var(--info-ink);
 
   --roxy-font-sans: var(--font-app);
+  --roxy-font-display: var(--font-app-display);
   --roxy-font-mono: var(--font-app-mono);
 
-  /* The same steps the theme block builds its radius scale from, and a test asserts the
-     two agree, because a ratio written twice is a ratio that drifts. The library rounds
-     a small mark with the small step, its card with the medium one, and an outer panel
-     with the large one, so those land on the small corner of this app, its base corner, and
-     the corner of the bubble the card sits in. */
+  /* The same steps the theme block builds its radius scale from, and a test asserts the two agree,
+     because a ratio written twice is a ratio that drifts. The library rounds a small mark with the
+     small step, its card with the medium one, and an outer panel with the large one, so those land
+     on the small corner of this app, its base corner, and the corner of a panel. */
   --roxy-radius-sm: calc(var(--radius) * 0.6);
   --roxy-radius-md: var(--radius);
   --roxy-radius-lg: calc(var(--radius) * 1.8);
 
-  /* The chat separates surfaces with a ring and a hairline and never with a shadow, so
-     the drawings do too. */
+  /* The chat separates surfaces with a hairline and never with a shadow, so the drawings do too. */
   --roxy-shadow-sm: none;
   --roxy-shadow-md: none;
   --roxy-shadow-lg: none;
 }
 
 .dark {
-  --background: #050510;
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
-
-  /* The ink the transcript writes in, and the opaque twin of the material the chat is
-     built from: a bubble is white at 5 percent over the page and a field nested in one
-     is white at 8 percent, and this is that field already composited. */
-  --foreground-soft: oklch(0.920 0.004 286.3);
-  --surface-panel: oklch(0.218 0.019 284.7);
-
-  /* Status colours the base palette does not carry, at the lightness this ground needs.
-     Each `-ink` is the text partner for its colour, sized to read on a tint of it. */
-  --success: oklch(0.723 0.192 149.6);
-  --success-ink: oklch(0.871 0.136 154.4);
-  --warning: oklch(0.758 0.159 55.9);
-  --warning-ink: oklch(0.837 0.117 66.3);
-  --destructive-ink: oklch(0.808 0.103 19.6);
-  --info: oklch(0.754 0.139 232.7);
-  --info-ink: oklch(0.828 0.101 230.3);
+  --background: #0B1826;
+  --foreground: #EFE7D3;
+  --card: #1B2A39;
+  --card-foreground: #EFE7D3;
+  --popover: #1B2A39;
+  --popover-foreground: #EFE7D3;
+  --primary: #C9A96B;
+  --primary-foreground: #16222E;
+  --secondary: #1B2A39;
+  --secondary-foreground: #EFE7D3;
+  --muted: #1B2A39;
+  --muted-foreground: #92A4B2;
+  --accent: #99BAD7;
+  --accent-foreground: #16222E;
+  --destructive: #E4736B;
+  --border: #263A4C;
+  --input: #263A4C;
+  --ring: #C9A96B;
+  --foreground-soft: #CED0C7;
+  --success: #6FBF8B;
+  --success-ink: #A6DCB8;
+  --warning: #E0A85C;
+  --warning-ink: #F0C68F;
+  --destructive-ink: #F0A39C;
+  --info: #99BAD7;
+  --info-ink: #BFD6E7;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply text-foreground;
-  }
   html {
-    @apply font-sans;
+    @apply h-full font-sans;
+  }
+  body {
+    @apply h-full bg-background text-foreground;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display font-normal tracking-tight;
   }
 }
 
-/* Space background */
-.bg-space {
-  background:
-    radial-gradient(ellipse at 15% 60%, oklch(0.65 0.14 195 / 0.08), transparent 50%),
-    radial-gradient(ellipse at 85% 25%, oklch(0.55 0.12 240 / 0.10), transparent 45%),
-    radial-gradient(ellipse at 50% 90%, oklch(0.65 0.14 195 / 0.05), transparent 50%),
-    #050510;
-  min-height: 100vh;
+/*
+A thin scrollbar, on the scrolling panes only. The shell is exactly one viewport tall and hides its
+own overflow, so the page itself never scrolls and this is the only bar a reader ever sees. It is a
+utility rather than a class because the prose rules below apply it to a wide table and a code block.
+*/
+@utility thin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 9999px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--muted-foreground);
+  }
 }
 
-/* Star twinkle animation */
-.star-twinkle {
+@layer components {
+  /*
+  The measure of the transcript, declared ONCE. The composer and the thread read the same width, so
+  a reply and the field it was typed into line up on both edges at every width.
+  */
+  .thread-measure {
+    @apply mx-auto w-full max-w-3xl px-4 sm:px-6;
+  }
+
+  /* Uppercase micro label above a sidebar group. */
+  .eyebrow {
+    @apply text-[0.6875rem] font-medium tracking-[0.18em] uppercase;
+  }
+
+  /* The reply arrives as markdown whether or not it was asked for, so it has to render. */
+  .prose-reply {
+    @apply text-[0.9375rem] leading-7;
+  }
+  .prose-reply > :first-child {
+    @apply mt-0;
+  }
+  .prose-reply > :last-child {
+    @apply mb-0;
+  }
+  .prose-reply p {
+    @apply my-3;
+  }
+  .prose-reply h1,
+  .prose-reply h2,
+  .prose-reply h3 {
+    @apply mt-5 mb-2 text-base;
+  }
+  .prose-reply ul,
+  .prose-reply ol {
+    @apply my-3 space-y-1 pl-5;
+  }
+  .prose-reply ul {
+    @apply list-disc;
+  }
+  .prose-reply ol {
+    @apply list-decimal;
+  }
+  .prose-reply strong {
+    @apply font-semibold;
+  }
+  .prose-reply em {
+    @apply italic;
+  }
+  .prose-reply a {
+    @apply text-primary underline underline-offset-2;
+  }
+  .prose-reply blockquote {
+    @apply border-primary/40 text-muted-foreground my-3 border-l-2 pl-3 italic;
+  }
+  .prose-reply hr {
+    @apply my-4;
+  }
+  .prose-reply code {
+    @apply bg-muted rounded px-1.5 py-0.5 font-mono text-[0.8125rem];
+  }
+  .prose-reply pre {
+    @apply thin-scroll bg-muted my-3 overflow-x-auto rounded-lg p-3;
+  }
+  .prose-reply pre code {
+    @apply bg-transparent p-0 text-[0.8125rem];
+  }
+  /* A wide table scrolls inside its own frame rather than widening the reply. */
+  .prose-reply .table-scroll {
+    @apply thin-scroll my-3 overflow-x-auto;
+  }
+  .prose-reply table {
+    @apply w-full text-left text-[0.8125rem];
+  }
+  .prose-reply th {
+    @apply border-border text-foreground-soft border-b px-2 py-1.5 font-semibold whitespace-nowrap;
+  }
+  .prose-reply td {
+    @apply border-border/60 border-b px-2 py-1.5;
+  }
+}
+
+/*
+The sky the reading is taken from. One wash from each end of the palette over the page colour, and
+because the two tokens swap roles between the themes the same declaration reads as a warm morning
+horizon on paper and as moonlight on night. No second gradient, no blur, no glass.
+*/
+.bg-sky {
+  background:
+    radial-gradient(
+      65% 45% at 15% 0%,
+      color-mix(in srgb, var(--primary) 14%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      70% 50% at 85% 100%,
+      color-mix(in srgb, var(--accent) 22%, transparent),
+      transparent 70%
+    ),
+    var(--background);
+}
+
+/*
+Stars belong to the night. In light the gradient above carries the whole atmosphere on its own,
+which is why the field is not merely faded out: an invisible animation is still an animation.
+*/
+.starfield {
+  display: none;
+}
+.dark .starfield {
+  display: block;
+}
+
+.star {
   animation: twinkle ease-in-out infinite;
 }
 
 @keyframes twinkle {
-  0%, 100% { opacity: var(--tw-opacity, 0.8); }
-  50% { opacity: 0.15; }
+  0%,
+  100% {
+    opacity: var(--star-opacity, 0.8);
+  }
+  50% {
+    opacity: 0.12;
+  }
 }
 
-/* Bottom area glass panel */
-.bottom-panel {
-  background: rgba(5, 5, 16, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-top: 1px solid oklch(0.70 0.15 195 / 0.2);
-  box-shadow: 0 -4px 24px oklch(0.70 0.15 195 / 0.06);
-}
-
-/* Header border - bottom only */
-.header-border {
-  border: none;
-  border-bottom: 1px solid oklch(0.70 0.15 195 / 0.2);
-  box-shadow: 0 1px 12px oklch(0.70 0.15 195 / 0.06);
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

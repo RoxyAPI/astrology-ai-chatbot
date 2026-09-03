@@ -10,37 +10,46 @@ function seededRandom(seed: number) {
   };
 }
 
+/**
+ * The night sky behind the transcript.
+ *
+ * @remarks Seeded rather than random, so the server and the browser lay the same sky and hydration
+ * has nothing to argue about. Each star carries its own brightness as a custom property, because
+ * the animation has to fade back to the brightness of that one star rather than to a shared value.
+ * The field is not painted in light: the page gradient carries the whole atmosphere there, and a
+ * field faded to nothing is still a field being animated.
+ */
 export function StarField() {
   const stars = useMemo(() => {
     const rand = seededRandom(42);
-    return Array.from({ length: 180 }, () => ({
+    return Array.from({ length: 160 }, () => ({
       x: rand() * 100,
       y: rand() * 100,
-      size: rand() < 0.8 ? 1 : rand() < 0.93 ? 1.5 : 2.5,
-      opacity: 0.3 + rand() * 0.7,
+      size: rand() < 0.82 ? 1 : rand() < 0.94 ? 1.5 : 2.5,
+      opacity: 0.25 + rand() * 0.5,
       delay: rand() * 5,
-      duration: 2.5 + rand() * 4,
+      duration: 3 + rand() * 4,
     }));
   }, []);
 
   return (
-    <div
-      className="fixed inset-0 overflow-hidden pointer-events-none z-0"
-      aria-hidden="true"
-    >
-      {stars.map((star, i) => (
+    <div className="starfield pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
+      {stars.map((star, index) => (
         <div
-          key={i}
-          className="absolute rounded-full bg-white star-twinkle"
-          style={{
-            left: `${star.x}%`,
-            top: `${star.y}%`,
-            width: star.size,
-            height: star.size,
-            opacity: star.opacity,
-            animationDelay: `${star.delay}s`,
-            animationDuration: `${star.duration}s`,
-          }}
+          key={index}
+          className="star bg-foreground absolute rounded-full"
+          style={
+            {
+              left: `${star.x}%`,
+              top: `${star.y}%`,
+              width: star.size,
+              height: star.size,
+              "--star-opacity": star.opacity,
+              opacity: star.opacity,
+              animationDelay: `${star.delay}s`,
+              animationDuration: `${star.duration}s`,
+            } as React.CSSProperties
+          }
         />
       ))}
     </div>

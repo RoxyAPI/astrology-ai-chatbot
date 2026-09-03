@@ -3,16 +3,15 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 /**
- * The components that draw a tool result read their own `--roxy-*` tokens, and every
- * surface, ink, border, status colour, face and corner they paint comes from one of
- * them. Pointing the whole set at the app palette is what makes a drawn chart part
- * of the chat rather than a card dropped into it, and a colour written here instead of
- * a reference is the failure worth catching: it survives a palette change and then
- * reads as a component from somewhere else.
+ * The palette, in both themes, and the bridge that hands it to the drawn results.
  *
- * The app ships one theme, the dark one, so the bridge is declared once in `:root` and
- * the palette it points at lives in `.dark`. Both blocks land on the same element, so
- * every reference resolves against the values the app actually runs.
+ * A half finished recolour is invisible until somebody opens the chatbot in the other theme, so
+ * every palette token is asserted in both blocks. The components that draw a tool result read their
+ * own `--roxy-*` tokens, and every surface, ink, border, status colour, face and corner they paint
+ * comes from one of them: pointing the whole set at the palette is what makes a drawn chart part of
+ * the chat rather than a card dropped into it. A colour written into the bridge instead of a
+ * reference is the failure worth catching, because it looks right in one theme and wrong in the
+ * other.
  */
 
 const css = readFileSync(join(process.cwd(), 'src', 'app', 'globals.css'), 'utf8');
@@ -23,20 +22,76 @@ function block(selector: string): string {
   return match[1];
 }
 
-const root = block(':root');
+const light = block(':root');
 const dark = block('.dark');
 const theme = css.match(/@theme inline \{([\s\S]*?)\n\}/)?.[1] ?? '';
+
+/** Every palette token, each of which has to carry its own value in each theme. */
+const PALETTE = [
+  'background',
+  'foreground',
+  'foreground-soft',
+  'card',
+  'card-foreground',
+  'popover',
+  'popover-foreground',
+  'primary',
+  'primary-foreground',
+  'secondary',
+  'secondary-foreground',
+  'muted',
+  'muted-foreground',
+  'accent',
+  'accent-foreground',
+  'success',
+  'success-ink',
+  'warning',
+  'warning-ink',
+  'destructive',
+  'destructive-ink',
+  'info',
+  'info-ink',
+  'border',
+  'input',
+  'ring',
+];
+
+describe('the palette is complete in both themes', () => {
+  for (const token of PALETTE) {
+    it(`${token} is declared in light`, () => {
+      expect(light).toMatch(new RegExp(`--${token}:\\s*#[0-9A-Fa-f]{6};`));
+    });
+
+    it(`${token} is declared in dark`, () => {
+      expect(dark).toMatch(new RegExp(`--${token}:\\s*#[0-9A-Fa-f]{6};`));
+    });
+  }
+
+  it('picks the dark values rather than inverting the light ones', () => {
+    const value = (source: string, token: string) =>
+      source.match(new RegExp(`--${token}:\\s*(#[0-9A-Fa-f]{6});`))?.[1];
+    // The two themes swap the role of the accent pair, which an inversion cannot produce: deep ink
+    // on paper by day, warm gold on night after dark.
+    expect(value(light, 'primary')).not.toBe(value(dark, 'primary'));
+    expect(value(light, 'accent')).not.toBe(value(dark, 'accent'));
+  });
+
+  it('declares the layout values the screen is built from', () => {
+    expect(light).toContain('--header-h:');
+    expect(light).toContain('--radius:');
+  });
+});
 
 /** Every `--roxy-*` token, and the app token it must read rather than restate. */
 const BRIDGE: Record<string, string> = {
   'roxy-bg': 'background',
-  'roxy-surface': 'surface-panel',
-  'roxy-fg': 'foreground-soft',
-  'roxy-primary': 'foreground',
-  'roxy-secondary': 'muted-foreground',
+  'roxy-surface': 'card',
+  'roxy-fg': 'card-foreground',
+  'roxy-primary': 'card-foreground',
+  'roxy-secondary': 'foreground-soft',
   'roxy-muted': 'muted-foreground',
   'roxy-border': 'border',
-  'roxy-accent': 'accent-brand',
+  'roxy-accent': 'primary',
   'roxy-success': 'success',
   'roxy-success-fg': 'success-ink',
   'roxy-warning': 'warning',
@@ -50,16 +105,12 @@ const BRIDGE: Record<string, string> = {
 describe('the drawn tool results follow the palette', () => {
   for (const [roxy, app] of Object.entries(BRIDGE)) {
     it(`${roxy} reads the ${app} token rather than a value of its own`, () => {
-      expect(root).toMatch(new RegExp(`--${roxy}:\\s*var\\(--${app}[,)]`));
-    });
-
-    it(`${app} is declared somewhere the bridge can reach it`, () => {
-      expect(`${root}${dark}`).toMatch(new RegExp(`--${app}:\\s*[^;]+;`));
+      expect(light).toMatch(new RegExp(`--${roxy}:\\s*var\\(--${app}[,)]`));
     });
   }
 
-  // Setting one of these would break a derivation the library depends on: the ink and
-  // the focus ring follow the accent, and the heat ramp follows the danger colour.
+  // Setting one of these would break a derivation the library depends on: the ink and the focus
+  // ring follow the accent, and the heat ramp follows the danger colour.
   for (const derived of ['roxy-accent-ink', 'roxy-ring', 'roxy-heat']) {
     it(`${derived} is left to derive rather than pinned`, () => {
       expect(css).not.toMatch(new RegExp(`--${derived}:`));
@@ -73,32 +124,35 @@ describe('the drawn tool results follow the palette', () => {
     expect(pinned.map(([line]) => line.trim())).toEqual([]);
   });
 
-  it('is declared once, because the palette it points at already moves with the theme', () => {
+  it('is declared once, because the dark block already moves what it points at', () => {
     expect(dark).not.toContain('--roxy-');
   });
 
   it('draws in the same faces the prose beside it is set in', () => {
-    expect(root).toContain('--roxy-font-sans: var(--font-app);');
-    expect(root).toContain('--roxy-font-mono: var(--font-app-mono);');
+    expect(light).toContain('--roxy-font-sans: var(--font-app);');
+    expect(light).toContain('--roxy-font-display: var(--font-app-display);');
+    expect(light).toContain('--roxy-font-mono: var(--font-app-mono);');
   });
 
   it('names those faces once, where the utilities read them too', () => {
-    expect(root).toMatch(/--font-app:\s*[^;]+;/);
-    expect(root).toMatch(/--font-app-mono:\s*[^;]+;/);
+    expect(light).toMatch(/--font-app:\s*var\(--font-sans-var\)/);
+    expect(light).toMatch(/--font-app-display:\s*var\(--font-display-var\)/);
+    expect(light).toMatch(/--font-app-mono:\s*[^;]+;/);
     expect(theme).toContain('--font-sans: var(--font-app);');
+    expect(theme).toContain('--font-display: var(--font-app-display);');
     expect(theme).toContain('--font-mono: var(--font-app-mono);');
   });
 
   it('separates surfaces with a hairline rather than a shadow, like the rest of the chat', () => {
     for (const step of ['sm', 'md', 'lg']) {
-      expect(root).toMatch(new RegExp(`--roxy-shadow-${step}:\\s*none;`));
+      expect(light).toMatch(new RegExp(`--roxy-shadow-${step}:\\s*none;`));
     }
   });
 
   /**
-   * The radius scale is stated twice, once for Tailwind and once for the components,
-   * because the theme block is inlined into utilities and cannot be read at runtime. A
-   * test between the two is what makes writing a ratio twice safe.
+   * The radius scale is stated twice, once for Tailwind and once for the components, because the
+   * theme block is inlined into utilities and cannot be read at runtime. A test between the two is
+   * what makes writing a ratio twice safe.
    */
   it('draws its corners from the same radius scale the rest of the app uses', () => {
     for (const [roxyStep, appStep] of [
@@ -109,21 +163,24 @@ describe('the drawn tool results follow the palette', () => {
         new RegExp(`--radius-${appStep}:\\s*calc\\(var\\(--radius\\) \\* ([0-9.]+)\\)`),
       )?.[1];
       expect(ratio).toBeDefined();
-      expect(root).toContain(`--roxy-radius-${roxyStep}: calc(var(--radius) * ${ratio});`);
+      expect(light).toContain(`--roxy-radius-${roxyStep}: calc(var(--radius) * ${ratio});`);
     }
-    expect(root).toContain('--roxy-radius-md: var(--radius);');
+    expect(light).toContain('--roxy-radius-md: var(--radius);');
     expect(theme).toContain('--radius-lg: var(--radius);');
   });
 });
 
-describe('the brand accent has one home', () => {
-  it('is declared in the palette, where a stylesheet and the bridge can both read it', () => {
-    expect(root).toMatch(/--accent-brand:\s*oklch\([^;]+\);/);
-    expect(root).toMatch(/--accent-brand-dim:\s*oklch\([^;]+\);/);
+describe('the measure of the transcript is declared once', () => {
+  it('globals.css declares .thread-measure', () => {
+    expect(css).toContain('.thread-measure {');
+    expect(css).toMatch(/\.thread-measure \{[\s\S]*?max-w-3xl/);
   });
 
-  it('is what the roxy utilities paint with, rather than a second copy of the value', () => {
-    expect(theme).toContain('--color-roxy: var(--accent-brand);');
-    expect(theme).toContain('--color-roxy-dim: var(--accent-brand-dim);');
+  it('nothing else in the chat declares its own transcript width', () => {
+    const files = ['ChatShell', 'ChatPanel', 'ChatHeader', 'MessageList', 'MessageBubble'].map(
+      (name) => join(process.cwd(), 'src', 'components', 'chat', `${name}.tsx`),
+    );
+    const offenders = files.filter((file) => /max-w-(3xl|4xl|5xl|screen)/.test(readFileSync(file, 'utf8')));
+    expect(offenders).toEqual([]);
   });
 });

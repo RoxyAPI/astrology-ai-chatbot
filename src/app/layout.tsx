@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 import { StarField } from "@/components/StarField";
+import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+/** Editorial display serif. The wordmark, the welcome, and the title on a drawn result. */
+const display = Fraunces({ subsets: ["latin"], variable: "--font-display-var", display: "swap" });
+
+/** Everything read at length: the transcript, the controls, the labels. */
+const sans = Inter({ subsets: ["latin"], variable: "--font-sans-var", display: "swap" });
 
 export const metadata: Metadata = {
   title: "AI Astrology Chatbot | Western, Vedic, Tarot, Numerology, Biorhythm",
@@ -55,10 +60,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${inter.className} bg-space antialiased`}>
-        <StarField />
-        {children}
+    // The theme class is written onto this element before the first paint, which is a difference
+    // the server could not have known about, so the warning about it is suppressed here and nowhere
+    // else.
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${display.variable} ${sans.variable} antialiased`}
+    >
+      <body className="bg-sky min-h-full">
+        <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
+          <StarField />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
