@@ -11,7 +11,7 @@ const jsonLd = {
       "name": "AI Astrology Chatbot: Western, Vedic, Tarot & More",
       "url": "https://github.com/RoxyAPI/astrology-ai-chatbot",
       "description":
-        "Open source AI astrology chatbot powered by real astronomical calculations, not AI hallucinations. Western birth charts, Vedic kundli (Janam Kundli, Vimshottari Dasha, Gun Milan, Panchang, doshas, KP), tarot spreads, numerology, biorhythm, I-Ching, dreams, crystals, and angel numbers. Every reading is computed from verified data, then interpreted by an LLM. Multilingual. Backed by 200+ RoxyAPI MCP tools verified against NASA JPL Horizons.",
+        "Open source AI astrology chatbot powered by real astronomical calculations, not AI hallucinations. Western birth charts, Vedic kundli (Janam Kundli, Vimshottari Dasha, Gun Milan, Panchang, doshas, KP), Mayan Tzolkin day signs, vastu, kabbalah gematria, tarot spreads, numerology, biorhythm, ayurveda, I-Ching, dreams, crystals, and angel numbers. Every reading is computed from verified data, then interpreted by an LLM. Multilingual. Backed by 255+ RoxyAPI MCP tools verified against NASA JPL Horizons.",
       "applicationCategory": "LifestyleApplication",
       "operatingSystem": "Web",
       "inLanguage": ["en", "hi", "es", "fr", "de", "pt", "ja", "zh"],
@@ -39,11 +39,15 @@ const jsonLd = {
         "Panchang with Tithi, Nakshatra, Yoga, Karana",
         "Angel number spiritual interpretations",
         "I-Ching hexagram readings with changing lines",
+        "Mayan Tzolkin and Aztec tonalpohualli day signs with the Long Count",
+        "Vastu entrance pada, plot analysis, and room placement",
+        "Kabbalah gematria with every Hebrew spelling shown",
+        "Ayurvedic constitution, dinacharya, and ritucharya from the birth chart",
         "Dream symbol interpretation for 2000+ symbols",
         "Multilingual: responds in your language",
       ],
       "keywords":
-        "horoscope today, daily horoscope, tarot reading, astrology chatbot, numerology, zodiac signs, birth chart, crystal healing, vedic astrology, kundli, angel numbers, dream interpretation, I-Ching, compatibility, life path number",
+        "horoscope today, daily horoscope, tarot reading, astrology chatbot, numerology, zodiac signs, birth chart, crystal healing, vedic astrology, kundli, angel numbers, dream interpretation, I-Ching, compatibility, life path number, mayan tzolkin, vastu shastra, gematria calculator, ayurveda dosha",
     },
     {
       "@type": "FAQPage",

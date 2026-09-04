@@ -34,11 +34,17 @@ Most AI astrology chatbots hallucinate planet positions, make up tarot spreads, 
 |--------|-----------------|
 | **Western Astrology** | Natal chart, daily/weekly/monthly horoscopes, transits, synastry, compatibility score, moon phases |
 | **Vedic Astrology** | Janam Kundli, Vimshottari Dasha, Gun Milan, detailed Panchang, Manglik/Kalsarpa/Sadhesati doshas, KP system, Navamsa |
-| **Numerology** | Life Path, Expression, Soul Urge, Personal Year, full chart, compatibility |
-| **Tarot** | Three-card spreads, Celtic Cross, love spread, daily card, yes/no oracle |
-| **Human Design** | Full bodygraph, energy type, strategy, authority, profile, centers, channels, gate activations, two-person connection, transit overlay |
 | **Forecast** | Cross-domain timeline merging Western transits, Vedic dasha periods, and biorhythm critical days, with significance-scored key dates |
+| **Human Design** | Full bodygraph, energy type, strategy, authority, profile, centers, channels, gate activations, two-person connection, transit overlay |
+| **Chinese Astrology** | BaZi Four Pillars chart, Day Master strength, ten year luck pillars, annual forecast, zodiac animal and compatibility, lunisolar date conversion, the 24 solar terms, Tong Shu almanac and auspicious date selection |
+| **Feng Shui** | Kua number and Eight Mansions directions, flying star natal chart, annual and monthly star overlays, bagua sectors, annual afflictions, the nine periods |
+| **Mesoamerican Astrology** | Tzolkin day sign, full Mayan chart with Haab and Long Count, Long Count conversion, nawal compatibility, trecenas, Aztec tonalpohualli |
+| **Vastu** | Entrance pada, Vastu Purusha Mandala, plot analysis, Ayadi proportions, room compliance, griha pravesh dates, the eight directions |
+| **Numerology** | Life Path, Expression, Soul Urge, Personal Year, full chart, compatibility |
+| **Kabbalah** | Gematria with every Hebrew spelling shown, name and birth profiles, the 72 names, Tree of Life and sephirot, Hebrew letters, name comparison |
+| **Tarot** | Three-card spreads, Celtic Cross, love spread, daily card, yes/no oracle |
 | **Biorhythm** | Physical, emotional, intellectual cycle charts, multi-day forecasts, critical-day alerts |
+| **Ayurveda** | Constitution from the birth chart, dinacharya day routine, ritucharya season, daily reading, the three doshas, six tastes, twenty qualities |
 | **I Ching** | Hexagram readings, daily cast, full 64-hexagram catalog with changing lines |
 | **Crystals** | Stones by zodiac, by chakra, birthstones by month, healing properties |
 | **Dreams** | 2,000+ dream symbols, recurring patterns, archetypes |
@@ -142,7 +148,7 @@ By default all 18 RoxyAPI products are enabled (~255 tools across 17 spiritual d
 ROXYAPI_PRODUCTS=tarot,astrology,location
 ```
 
-Available product slugs: `astrology`, `vedic-astrology`, `forecast`, `human-design`, `chinese-astrology`, `feng-shui`, `numerology`, `tarot`, `biorhythm`, `iching`, `crystals`, `dreams`, `angel-numbers`, `location`. Legacy `-api` suffixed slugs (e.g. `tarot-api`) still work for backwards compat. The list that ships is `DEFAULT_PRODUCTS` in [`src/lib/mcp.ts`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/lib/mcp.ts), so check there when a new RoxyAPI domain appears.
+Available product slugs: `astrology`, `vedic-astrology`, `forecast`, `human-design`, `chinese-astrology`, `feng-shui`, `mesoamerican-astrology`, `vastu`, `numerology`, `kabbalah`, `tarot`, `biorhythm`, `ayurveda`, `iching`, `crystals`, `dreams`, `angel-numbers`, `location`. Legacy `-api` suffixed slugs (e.g. `tarot-api`) still work for backwards compat. The list that ships is `DEFAULT_PRODUCTS` in [`src/lib/mcp.ts`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/lib/mcp.ts), so check there when a new RoxyAPI domain appears.
 
 ### Tool count recommendations
 
