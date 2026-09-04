@@ -26,9 +26,9 @@ Ships with auto-discovered remote MCP tools, multi-provider LLM support (Gemini,
 
 ## Why This Exists
 
-Most AI astrology chatbots hallucinate planet positions, make up tarot spreads, and invent numerology results. This one calls [the 200+ verified tools at RoxyAPI](https://roxyapi.com/api-reference) via [MCP](https://roxyapi.com/docs/mcp) (Model Context Protocol), gets real computed data from astronomical ephemeris engines and mathematical models, then has the LLM interpret it. Every birth chart, every tarot draw, every Life Path calculation is backed by actual computation.
+Most AI astrology chatbots hallucinate planet positions, make up tarot spreads, and invent numerology results. This one calls [the 255+ verified tools at RoxyAPI](https://roxyapi.com/api-reference) via [MCP](https://roxyapi.com/docs/mcp) (Model Context Protocol), gets real computed data from astronomical ephemeris engines and mathematical models, then has the LLM interpret it. Every birth chart, every tarot draw, every Life Path calculation is backed by actual computation.
 
-**13 spiritual domains plus location geocoding. Auto-discovered tools via MCP. Multilingual. Any LLM.**
+**17 spiritual domains plus location geocoding. Auto-discovered tools via MCP. Multilingual. Any LLM.**
 
 | Domain | What You Can Ask |
 |--------|-----------------|
@@ -125,7 +125,7 @@ Every value is a reference rather than a colour, so the dark palette moves the d
 
 ## MCP Tool Discovery
 
-This chatbot uses [Model Context Protocol (MCP)](https://modelcontextprotocol.io) to automatically discover all available tools from [RoxyAPI](https://roxyapi.com) at runtime. No manual endpoint wiring, all 200+ tools across 13 spiritual domains plus location geocoding are ready to use out of the box.
+This chatbot uses [Model Context Protocol (MCP)](https://modelcontextprotocol.io) to automatically discover all available tools from [RoxyAPI](https://roxyapi.com) at runtime. No manual endpoint wiring, all 255+ tools across 17 spiritual domains plus location geocoding are ready to use out of the box.
 
 ### How MCP connections work
 
@@ -133,7 +133,7 @@ MCP connections are initialized **once** and cached automatically. The first req
 
 ### Choosing which products to enable
 
-By default all 14 RoxyAPI products are enabled (~200 tools across 13 spiritual domains plus location for geocoding). To use a subset, set the `ROXYAPI_PRODUCTS` env var:
+By default all 18 RoxyAPI products are enabled (~255 tools across 17 spiritual domains plus location for geocoding). To use a subset, set the `ROXYAPI_PRODUCTS` env var:
 
 ```env
 # Enable only tarot and astrology (fewer tools = faster model selection)
@@ -151,7 +151,7 @@ Available product slugs: `astrology`, `vedic-astrology`, `forecast`, `human-desi
 | **10-30 tools** | Fast, accurate tool selection | Best for focused use cases (e.g. tarot + astrology only) |
 | **30-80 tools** | Good with capable models (Gemini 2.5 Flash, GPT-5 mini, Claude Haiku 4.5) | Good balance for most deployments |
 | **80-150 tools** | Works but slower; model may occasionally pick the wrong tool | Increase `MAX_TOOL_STEPS` if needed |
-| **200+ tools** | Where the full default catalogue sits, all 14 products enabled. Capable models handle it; smaller ones start picking the wrong tool as descriptions compete for context | Trim `ROXYAPI_PRODUCTS` to the domains you actually need |
+| **255+ tools** | Where the full default catalogue sits, all 18 products enabled. Capable models handle it; smaller ones start picking the wrong tool as descriptions compete for context | Trim `ROXYAPI_PRODUCTS` to the domains you actually need |
 
 > **Tip**: If you are building a focused product (e.g. a tarot-only app), set `ROXYAPI_PRODUCTS=tarot` to give the LLM fewer options and faster, more accurate tool selection.
 
@@ -213,7 +213,7 @@ Key design decisions:
 |-------|------|
 | Framework | [Next.js 16](https://nextjs.org) (App Router, React 19) |
 | AI | [Vercel AI SDK v6](https://ai-sdk.dev), streaming, tool calling, multi-provider |
-| Data | [RoxyAPI](https://roxyapi.com): 200+ tools, 13 spiritual domains plus location, Remote [MCP](https://roxyapi.com/docs/mcp) |
+| Data | [RoxyAPI](https://roxyapi.com): 255+ tools, 17 spiritual domains plus location, Remote [MCP](https://roxyapi.com/docs/mcp) |
 | Tool Discovery | [MCP](https://modelcontextprotocol.io) via `@ai-sdk/mcp`, auto-discovers tools at runtime |
 | Widgets | [@roxyapi/ui-react](https://www.npmjs.com/package/@roxyapi/ui-react): charts, spreads, and tables that render a tool result |
 | UI | [Tailwind CSS v4](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com), one palette in two themes |
@@ -245,7 +245,7 @@ Key design decisions:
 | `ANTHROPIC_API_KEY` | If Anthropic | none | Anthropic API key |
 | `OPENAI_API_KEY` | If OpenAI | none | OpenAI API key |
 | `ROXYAPI_MCP_URL` | No | `https://roxyapi.com/mcp` | Base URL for MCP endpoints |
-| `ROXYAPI_PRODUCTS` | No | All 14 products | Comma-separated list of product slugs to enable |
+| `ROXYAPI_PRODUCTS` | No | All 18 products | Comma-separated list of product slugs to enable |
 | `MAX_TOOL_STEPS` | No | `5` | Max tool-call round-trips per message |
 
 ## Deploy
@@ -274,7 +274,7 @@ npm run build && npm start
 
 ### How many tools can the LLM handle?
 
-The default setup exposes ~200 tools from 14 RoxyAPI products (13 spiritual domains plus location for geocoding). Modern models like Gemini 2.5 Flash, GPT-5 mini, and Claude Haiku 4.5 handle this well. If you see the model picking the wrong tool or making excessive tool calls, reduce the product count via `ROXYAPI_PRODUCTS`, fewer tools means faster, more accurate selection.
+The default setup exposes ~255 tools from 18 RoxyAPI products (17 spiritual domains plus location for geocoding). Modern models like Gemini 2.5 Flash, GPT-5 mini, and Claude Haiku 4.5 handle this well. If you see the model picking the wrong tool or making excessive tool calls, reduce the product count via `ROXYAPI_PRODUCTS`, fewer tools means faster, more accurate selection.
 
 ### The chatbot is unstable or sometimes does not respond
 

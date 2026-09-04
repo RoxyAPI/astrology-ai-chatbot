@@ -45,17 +45,21 @@ if (!API_KEY) {
 export const DEFAULT_PRODUCTS = [
   "astrology",
   "vedic-astrology",
-  "tarot",
-  "numerology",
-  "human-design",
   "forecast",
+  "human-design",
   "chinese-astrology",
   "feng-shui",
+  "mesoamerican-astrology",
+  "vastu",
+  "numerology",
+  "kabbalah",
+  "tarot",
   "biorhythm",
-  "crystals",
-  "angel-numbers",
+  "ayurveda",
   "iching",
+  "crystals",
   "dreams",
+  "angel-numbers",
   // Geocoding utility — lets the model resolve "born in London" to
   // latitude, longitude, and timezone before calling any chart endpoint.
   // Without this, chart calls require the user to type coordinates by hand.
