@@ -1,6 +1,6 @@
 # Agents Guide
 
-This is an MIT licensed RoxyAPI template: a white label AI astrology chatbot built with Next.js 16 and the Vercel AI SDK, made to be cloned, customised, rebranded, and resold as your own product. It auto discovers remote RoxyAPI MCP servers at runtime, so the LLM reaches 255+ verified tools across 18 domains (17 spiritual plus location geocoding) with no hardcoded endpoint wiring. You are most likely a coding agent helping someone build their own product on top of this template. More templates to fork: https://roxyapi.com/starters
+This is an MIT licensed RoxyAPI template: a white label AI astrology chatbot built with Next.js 16 and the Vercel AI SDK, made to be cloned, customised, rebranded, and resold as your own product. It auto discovers remote RoxyAPI MCP servers at runtime, so the LLM reaches 255+ verified tools across 18 domains (17 spiritual plus location geocoding) with no hardcoded endpoint wiring. You are most likely a coding agent helping someone build their own product on top of this template. More templates to fork: https://roxyapi.com/templates
 
 ## Canonical RoxyAPI references (use these, do not guess)
 
@@ -78,4 +78,4 @@ git merge upstream/main        # or: git rebase upstream/main
 
 ## Resources
 - TypeScript SDK: https://github.com/RoxyAPI/sdk-typescript (npm `@roxyapi/sdk`) · Python SDK: https://github.com/RoxyAPI/sdk-python (PyPI `roxy-sdk`)
-- MCP docs: https://roxyapi.com/docs/mcp · Methodology: https://roxyapi.com/methodology · More starters: https://roxyapi.com/starters · Pricing: https://roxyapi.com/pricing
+- MCP docs: https://roxyapi.com/docs/mcp · Methodology: https://roxyapi.com/methodology · More starters: https://roxyapi.com/templates · Pricing: https://roxyapi.com/pricing

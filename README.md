@@ -13,7 +13,7 @@
 [![Quickstart](https://img.shields.io/badge/Docs-Quickstart-3b82f6?style=for-the-badge&logo=readthedocs&logoColor=white)](https://roxyapi.com/docs/quickstart)
 [![Remote MCP](https://img.shields.io/badge/Remote_MCP-Setup-a855f7?style=for-the-badge&logo=anthropic&logoColor=white)](https://roxyapi.com/docs/mcp)
 [![Methodology](https://img.shields.io/badge/Methodology-NASA_JPL_verified-f59e0b?style=for-the-badge&logo=nasa&logoColor=white)](https://roxyapi.com/methodology)
-[![More starters](https://img.shields.io/badge/More_Starters-RoxyAPI-ec4899?style=for-the-badge&logo=github&logoColor=white)](https://roxyapi.com/starters)
+[![More starters](https://img.shields.io/badge/More_Starters-RoxyAPI-ec4899?style=for-the-badge&logo=github&logoColor=white)](https://roxyapi.com/templates)
 [![Deploy with Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?style=for-the-badge&logo=vercel)](https://vercel.com/new/clone?repository-url=https://github.com/RoxyAPI/astrology-ai-chatbot&env=ROXYAPI_KEY,GOOGLE_GENERATIVE_AI_API_KEY&envDescription=API%20keys%20for%20RoxyAPI%20and%20your%20LLM%20provider&envLink=https://roxyapi.com/pricing)
 
 Ships with auto-discovered remote MCP tools, multi-provider LLM support (Gemini, Claude, GPT), and an interface built to be shown to customers: light and dark, a collapsible conversation list, and every chart drawn in the palette you choose.
@@ -321,7 +321,7 @@ The code is free and open source. You will need a [RoxyAPI key](https://roxyapi.
 | Methodology (NASA JPL verified) | [roxyapi.com/methodology](https://roxyapi.com/methodology) |
 | Pricing | [roxyapi.com/pricing](https://roxyapi.com/pricing) |
 | All Products | [roxyapi.com/products](https://roxyapi.com/products) |
-| Starter Apps | [roxyapi.com/starters](https://roxyapi.com/starters) |
+| Starter Apps | [roxyapi.com/templates](https://roxyapi.com/templates) |
 
 ---
 
