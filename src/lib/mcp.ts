@@ -7,10 +7,10 @@
  * every subsequent request reuses the cached tools with zero network overhead.
  *
  * Configuration (via environment variables):
- *  - ROXYAPI_MCP_URL    — Base URL for MCP endpoints (default: https://roxyapi.com/mcp)
- *  - ROXYAPI_KEY         — Your RoxyAPI API key
- *  - ROXYAPI_PRODUCTS    — Comma-separated list of API slugs to enable.
- *                          Defaults to all available products listed below.
+ *  - ROXYAPI_MCP_URL   — Base URL for MCP endpoints (default: https://roxyapi.com/mcp)
+ *  - ROXY_API_KEY      — Your RoxyAPI API key
+ *  - ROXYAPI_PRODUCTS  — Comma-separated list of API slugs to enable.
+ *                        Defaults to all available products listed below.
  *
  * @example
  *   // .env — enable only tarot and astrology
@@ -28,11 +28,11 @@ import type { ToolSet } from "ai";
 /* ------------------------------------------------------------------ */
 
 const MCP_BASE = process.env.ROXYAPI_MCP_URL || "https://roxyapi.com/mcp";
-const API_KEY = process.env.ROXYAPI_KEY || "";
+const API_KEY = process.env.ROXY_API_KEY || "";
 
 if (!API_KEY) {
   console.warn(
-    "[mcp] ROXYAPI_KEY is not set: MCP tool calls will fail. " +
+    "[mcp] ROXY_API_KEY is not set: MCP tool calls will fail. " +
       "Get a key at https://roxyapi.com/pricing"
   );
 }

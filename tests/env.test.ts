@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { getEnvStatus } from '@/lib/env';
 
 const KEYS = [
-  'ROXYAPI_KEY',
+  'ROXY_API_KEY',
   'LLM_PROVIDER',
   'GOOGLE_GENERATIVE_AI_API_KEY',
   'ANTHROPIC_API_KEY',
@@ -29,7 +29,7 @@ afterEach(() => {
 
 describe('getEnvStatus', () => {
   it('reports ok once the RoxyAPI key and the active provider key are set', () => {
-    process.env.ROXYAPI_KEY = 'sk-real';
+    process.env.ROXY_API_KEY = 'sk-real';
     process.env.GOOGLE_GENERATIVE_AI_API_KEY = 'g-real';
     const status = getEnvStatus();
     expect(status).toMatchObject({ ok: true, missing: [], provider: 'gemini' });
@@ -39,23 +39,23 @@ describe('getEnvStatus', () => {
     process.env.GOOGLE_GENERATIVE_AI_API_KEY = 'g-real';
     const status = getEnvStatus();
     expect(status.ok).toBe(false);
-    expect(status.missing.map((m) => m.name)).toContain('ROXYAPI_KEY');
+    expect(status.missing.map((m) => m.name)).toContain('ROXY_API_KEY');
   });
 
   it('treats .env.example placeholder values as unset', () => {
-    process.env.ROXYAPI_KEY = 'your_roxyapi_key_here';
+    process.env.ROXY_API_KEY = 'your_roxyapi_key_here';
     process.env.GOOGLE_GENERATIVE_AI_API_KEY = 'your_google_api_key_here';
     const status = getEnvStatus();
     expect(status.ok).toBe(false);
     expect(status.missing.map((m) => m.name)).toEqual([
-      'ROXYAPI_KEY',
+      'ROXY_API_KEY',
       'GOOGLE_GENERATIVE_AI_API_KEY',
     ]);
   });
 
   it('checks the key for the selected provider', () => {
     process.env.LLM_PROVIDER = 'anthropic';
-    process.env.ROXYAPI_KEY = 'sk-real';
+    process.env.ROXY_API_KEY = 'sk-real';
     const status = getEnvStatus();
     expect(status.provider).toBe('anthropic');
     expect(status.missing.map((m) => m.name)).toEqual(['ANTHROPIC_API_KEY']);
@@ -63,14 +63,14 @@ describe('getEnvStatus', () => {
 
   it('matches the provider case-insensitively', () => {
     process.env.LLM_PROVIDER = 'OpenAI';
-    process.env.ROXYAPI_KEY = 'sk-real';
+    process.env.ROXY_API_KEY = 'sk-real';
     process.env.OPENAI_API_KEY = 'o-real';
     expect(getEnvStatus()).toMatchObject({ ok: true, provider: 'openai' });
   });
 
   it('falls back to gemini for an unknown provider', () => {
     process.env.LLM_PROVIDER = 'mistral';
-    process.env.ROXYAPI_KEY = 'sk-real';
+    process.env.ROXY_API_KEY = 'sk-real';
     process.env.GOOGLE_GENERATIVE_AI_API_KEY = 'g-real';
     expect(getEnvStatus()).toMatchObject({ ok: true, provider: 'gemini' });
   });

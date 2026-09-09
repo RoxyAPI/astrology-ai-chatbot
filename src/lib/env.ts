@@ -11,7 +11,7 @@
 export type LlmProvider = "gemini" | "anthropic" | "openai";
 
 export interface MissingKey {
-  /** Env var name, e.g. "ROXYAPI_KEY". */
+  /** Env var name, e.g. "ROXY_API_KEY". */
   name: string;
   /** Where to obtain the key. */
   url: string;
@@ -60,9 +60,9 @@ export function getEnvStatus(): EnvStatus {
 
   const missing: MissingKey[] = [];
 
-  if (isUnset(process.env.ROXYAPI_KEY)) {
+  if (isUnset(process.env.ROXY_API_KEY)) {
     missing.push({
-      name: "ROXYAPI_KEY",
+      name: "ROXY_API_KEY",
       url: "https://roxyapi.com/pricing",
       hint: "Powers all astrology, Vedic, tarot, numerology, and dream readings.",
     });

@@ -14,7 +14,7 @@
 [![Remote MCP](https://img.shields.io/badge/Remote_MCP-Setup-a855f7?style=for-the-badge&logo=anthropic&logoColor=white)](https://roxyapi.com/docs/mcp)
 [![Methodology](https://img.shields.io/badge/Methodology-NASA_JPL_verified-f59e0b?style=for-the-badge&logo=nasa&logoColor=white)](https://roxyapi.com/methodology)
 [![More starters](https://img.shields.io/badge/More_Starters-RoxyAPI-ec4899?style=for-the-badge&logo=github&logoColor=white)](https://roxyapi.com/templates)
-[![Deploy with Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?style=for-the-badge&logo=vercel)](https://vercel.com/new/clone?repository-url=https://github.com/RoxyAPI/astrology-ai-chatbot&env=ROXYAPI_KEY,GOOGLE_GENERATIVE_AI_API_KEY&envDescription=API%20keys%20for%20RoxyAPI%20and%20your%20LLM%20provider&envLink=https://roxyapi.com/pricing)
+[![Deploy with Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?style=for-the-badge&logo=vercel)](https://vercel.com/new/clone?repository-url=https://github.com/RoxyAPI/astrology-ai-chatbot&env=ROXY_API_KEY,GOOGLE_GENERATIVE_AI_API_KEY&envDescription=API%20keys%20for%20RoxyAPI%20and%20your%20LLM%20provider&envLink=https://roxyapi.com/pricing)
 
 Ships with auto-discovered remote MCP tools, multi-provider LLM support (Gemini, Claude, GPT), and an interface built to be shown to customers: light and dark, a collapsible conversation list, and every chart drawn in the palette you choose.
 
@@ -245,7 +245,7 @@ Key design decisions:
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `ROXYAPI_KEY` | Yes | none | Your RoxyAPI API key ([get one](https://roxyapi.com/pricing)) |
+| `ROXY_API_KEY` | Yes | none | Your RoxyAPI API key ([get one](https://roxyapi.com/pricing)) |
 | `LLM_PROVIDER` | No | `gemini` | LLM provider: `gemini`, `anthropic`, or `openai` |
 | `GOOGLE_GENERATIVE_AI_API_KEY` | If Gemini | none | Google AI API key |
 | `ANTHROPIC_API_KEY` | If Anthropic | none | Anthropic API key |
@@ -258,7 +258,7 @@ Key design decisions:
 
 One-click deploy to Vercel:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/RoxyAPI/astrology-ai-chatbot&env=ROXYAPI_KEY,GOOGLE_GENERATIVE_AI_API_KEY&envDescription=API%20keys%20for%20RoxyAPI%20and%20your%20LLM%20provider&envLink=https://roxyapi.com/pricing)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/RoxyAPI/astrology-ai-chatbot&env=ROXY_API_KEY,GOOGLE_GENERATIVE_AI_API_KEY&envDescription=API%20keys%20for%20RoxyAPI%20and%20your%20LLM%20provider&envLink=https://roxyapi.com/pricing)
 
 Or deploy anywhere that runs Node.js:
 
@@ -284,7 +284,7 @@ The default setup exposes ~255 tools from 18 RoxyAPI products (17 spiritual doma
 
 ### The chatbot is unstable or sometimes does not respond
 
-This is almost always caused by MCP initialization timing out. The default `maxDuration` is 60 seconds, which should be enough. If you are on the Vercel Hobby plan (10s limit), upgrade to Pro or reduce the number of products. Also check that your `ROXYAPI_KEY` is valid.
+This is almost always caused by MCP initialization timing out. The default `maxDuration` is 60 seconds, which should be enough. If you are on the Vercel Hobby plan (10s limit), upgrade to Pro or reduce the number of products. Also check that your `ROXY_API_KEY` is valid.
 
 ### Do MCP connections stay open forever?
 
