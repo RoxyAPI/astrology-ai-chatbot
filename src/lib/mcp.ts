@@ -47,18 +47,9 @@ export const DEFAULT_PRODUCTS = [
   "vedic-astrology",
   "forecast",
   "human-design",
-  "chinese-astrology",
-  "feng-shui",
-  "mesoamerican-astrology",
-  "vastu",
   "numerology",
-  "kabbalah",
   "tarot",
-  "biorhythm",
-  "ayurveda",
   "iching",
-  "crystals",
-  "dreams",
   "angel-numbers",
   // Geocoding utility — lets the model resolve "born in London" to
   // latitude, longitude, and timezone before calling any chart endpoint.

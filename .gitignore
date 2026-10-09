@@ -45,3 +45,4 @@ sql.md
 
 # maintainer notes, never public
 CLAUDE.md
+.env.local
