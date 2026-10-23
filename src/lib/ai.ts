@@ -23,22 +23,18 @@ import { openai } from "@ai-sdk/openai";
 const provider = process.env.LLM_PROVIDER || "gemini";
 
 /**
- * Returns the AI SDK model instance for the configured provider.
- *
- * | Provider    | Model                    | Notes                   |
- * |-------------|--------------------------|-------------------------|
- * | gemini      | gemini-2.5-flash         | Free tier available     |
- * | anthropic   | claude-haiku-4-5         | Best quality            |
- * | openai      | gpt-5-mini               | Most popular            |
+ * Returns the AI SDK model instance for the configured provider. This is the
+ * only place a model identifier appears: change the model here, never in a
+ * prompt, a component or a document.
  */
 export function getModel() {
   switch (provider) {
     case "anthropic":
-      return anthropic("claude-haiku-4-5-20251001");
+      return anthropic("claude-haiku-5-5");
     case "openai":
-      return openai("gpt-5-mini");
+      return openai("gpt-6-luna");
     case "gemini":
     default:
-      return google("gemini-2.5-flash");
+      return google("gemini-3.8-flash");
   }
 }

@@ -49,7 +49,7 @@ Every chart tool (Western, Vedic, Human Design, Forecast, Chinese astrology BaZi
 
 **The screen**
 - `src/components/chat/ChatShell.tsx`, the layout: header, sidebar, transcript, and the conversation being read.
-- `src/components/chat/ChatHeader.tsx`, wordmark, the strip of connected domains, and the view controls.
+- `src/components/chat/ChatHeader.tsx`, wordmark and the view controls.
 - `src/components/chat/ChatSidebar.tsx`, new chat, recent conversations, and the connected list. A panel on a wide screen and a drawer on a narrow one.
 - `src/components/chat/ChatPanel.tsx`, one conversation: the transcript, the composer, and the attribution.
 - `src/components/chat/MessageList.tsx`, the transcript and the opening screen.

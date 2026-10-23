@@ -1,7 +1,7 @@
 /**
  * @fileoverview Reading names for the product slugs this chatbot connects to.
  *
- * The header strip and the sidebar both list what is wired up, and the home page resolves that list
+ * The sidebar lists what is wired up, and the home page resolves that list
  * from the same environment variable the MCP registry reads, so the connected set on screen is the
  * connected set in the environment rather than a list somebody kept in step by hand. A slug added
  * to the registry without a name here fails a test.

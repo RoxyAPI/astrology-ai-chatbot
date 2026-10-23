@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { DOMAIN_LABELS, OPENERS, domainLabels, openersFor } from '@/lib/domains';
 import { DEFAULT_PRODUCTS, resolveProducts } from '@/lib/mcp';
 
-// The header strip and the sidebar tell a reader what the chatbot is connected to. A product added
+// The sidebar tells a reader what the chatbot is connected to. A product added
 // to the registry with no name here would show its slug on screen, which is the kind of thing
 // nobody notices until a customer does.
 
