@@ -88,7 +88,6 @@ export function ChatShell({ slugs }: ChatShellProps) {
   return (
     <div className="relative z-10 flex h-svh flex-col overflow-hidden">
       <ChatHeader
-        domains={domains}
         drawerOpen={drawerOpen}
         sidebarOpen={sidebarOpen}
         onToggleDrawer={() => setDrawerOpen((open) => !open)}

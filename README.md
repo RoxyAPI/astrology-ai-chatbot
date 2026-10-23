@@ -75,13 +75,13 @@ You need two keys:
 
 ## Choose Your LLM
 
-Swap providers with one env var. All three use the unified interface in the Vercel AI SDK, same code, different model:
+Swap providers with one env var. All three use the unified interface in the Vercel AI SDK, same code, different model. The model each provider runs is set in one place, [`src/lib/ai.ts`](https://github.com/RoxyAPI/astrology-ai-chatbot/blob/main/src/lib/ai.ts):
 
-| Provider | Env Var | Model | Cost / 1M tokens |
-|----------|---------|-------|-------------------|
-| **Google Gemini** (default) | `GOOGLE_GENERATIVE_AI_API_KEY` | Gemini 2.5 Flash | $0.30 / $2.50, has free tier |
-| Anthropic | `ANTHROPIC_API_KEY` | Claude Haiku 4.5 | $1.00 / $5.00 |
-| OpenAI | `OPENAI_API_KEY` | GPT-5 mini | $0.13 / $1.00 |
+| Provider | Env Var |
+|----------|---------|
+| **Google Gemini** (default, has a free tier) | `GOOGLE_GENERATIVE_AI_API_KEY` |
+| Anthropic | `ANTHROPIC_API_KEY` |
+| OpenAI | `OPENAI_API_KEY` |
 
 ```env
 LLM_PROVIDER=gemini
@@ -155,7 +155,7 @@ Available product slugs: `astrology`, `vedic-astrology`, `forecast`, `human-desi
 | Tool Count | LLM Behavior | Recommendation |
 |-----------|--------------|----------------|
 | **10-30 tools** | Fast, accurate tool selection | Best for focused use cases (e.g. tarot + astrology only) |
-| **30-80 tools** | Good with capable models (Gemini 2.5 Flash, GPT-5 mini, Claude Haiku 4.5) | Good balance for most deployments |
+| **30-80 tools** | Good with the default models of all three providers | Good balance for most deployments |
 | **80-150 tools** | Works but slower; model may occasionally pick the wrong tool | Increase `MAX_TOOL_STEPS` if needed |
 | **255+ tools** | Where the full default catalogue sits, all 18 products enabled. Capable models handle it; smaller ones start picking the wrong tool as descriptions compete for context | Trim `ROXYAPI_PRODUCTS` to the domains you actually need |
 
@@ -173,7 +173,7 @@ src/
 ├── components/
 │   ├── chat/
 │   │   ├── ChatShell.tsx     # Header, sidebar, transcript, conversation switching
-│   │   ├── ChatHeader.tsx    # Wordmark, connected domains, theme and view controls
+│   │   ├── ChatHeader.tsx    # Wordmark, theme and view controls
 │   │   ├── ChatSidebar.tsx   # New chat, recent conversations, connected list
 │   │   ├── ChatPanel.tsx     # One conversation: transcript, composer, attribution
 │   │   ├── MessageList.tsx   # Transcript, opening screen, four openers
@@ -280,7 +280,7 @@ npm run build && npm start
 
 ### How many tools can the LLM handle?
 
-The default setup exposes ~255 tools from 18 RoxyAPI products (17 spiritual domains plus location for geocoding). Modern models like Gemini 2.5 Flash, GPT-5 mini, and Claude Haiku 4.5 handle this well. If you see the model picking the wrong tool or making excessive tool calls, reduce the product count via `ROXYAPI_PRODUCTS`, fewer tools means faster, more accurate selection.
+The default setup exposes ~255 tools from 18 RoxyAPI products (17 spiritual domains plus location for geocoding). The default model of each provider handles this well. If you see the model picking the wrong tool or making excessive tool calls, reduce the product count via `ROXYAPI_PRODUCTS`, fewer tools means faster, more accurate selection.
 
 ### The chatbot is unstable or sometimes does not respond
 

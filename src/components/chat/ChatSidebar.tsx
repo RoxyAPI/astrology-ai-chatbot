@@ -110,9 +110,21 @@ export function ChatSidebar({
         )}
       </nav>
 
-      <div className="border-t px-4 py-3">
-        <p className="eyebrow text-muted-foreground pb-1.5">Connected</p>
-        <p className="text-foreground-soft text-xs leading-5">{domains.join(" · ")}</p>
+      <div className="border-t px-4 py-3.5">
+        <p className="eyebrow text-muted-foreground flex items-center gap-2 pb-2.5">
+          <span aria-hidden="true" className="bg-primary size-1.5 rounded-full" />
+          Connected
+        </p>
+        <ul className="flex flex-wrap gap-1.5">
+          {domains.map((domain) => (
+            <li
+              key={domain}
+              className="bg-card text-foreground-soft rounded-full border px-2.5 py-1 text-[0.6875rem] leading-none"
+            >
+              {domain}
+            </li>
+          ))}
+        </ul>
       </div>
     </aside>
   );

@@ -1,12 +1,11 @@
 "use client";
 
-import { Menu, PanelLeft, PanelLeftClose } from "lucide-react";
+import { Menu, PanelLeft, PanelLeftClose, Sparkles } from "lucide-react";
 import type { RefObject } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 
 interface ChatHeaderProps {
-  domains: string[];
   drawerOpen: boolean;
   sidebarOpen: boolean;
   onToggleDrawer: () => void;
@@ -15,22 +14,20 @@ interface ChatHeaderProps {
 }
 
 /**
- * The wordmark, what the chatbot is connected to, and the two controls that change the view.
+ * The wordmark and the controls that change the view. What the chatbot is connected to lives in the
+ * sidebar, once.
  *
  * @remarks Two separate buttons rather than one that behaves differently by width: only one is ever
  * on screen, so each can say exactly what it does and report its own state honestly. One control
  * that means two things cannot.
  */
 export function ChatHeader({
-  domains,
   drawerOpen,
   sidebarOpen,
   onToggleDrawer,
   onToggleSidebar,
   drawerButtonRef,
 }: ChatHeaderProps) {
-  const strip = domains.join(" · ");
-
   return (
     <header className="bg-background z-20 h-[var(--header-h)] shrink-0 border-b">
       <div className="flex h-full items-center gap-2 px-2 sm:gap-3 sm:px-4">
@@ -59,20 +56,17 @@ export function ChatHeader({
           {sidebarOpen ? <PanelLeftClose className="size-4" /> : <PanelLeft className="size-4" />}
         </Button>
 
-        <h1 className="font-display shrink-0 text-base leading-none tracking-tight sm:text-lg">
-          Astrology Chatbot
-        </h1>
-
-        {/* What this deployment is wired to, on one line. The rule before it keeps the list from
-            reading as part of the name. */}
-        {strip ? (
-          <p
-            className="text-muted-foreground border-border hidden min-w-0 flex-1 truncate border-l pl-3 text-xs md:block"
-            title={domains.join(", ")}
+        <div className="flex min-w-0 items-center gap-2.5">
+          <span
+            aria-hidden="true"
+            className="bg-primary/12 text-primary ring-primary/25 grid size-7 shrink-0 place-items-center rounded-full ring-1"
           >
-            {strip}
-          </p>
-        ) : null}
+            <Sparkles className="size-3.5" />
+          </span>
+          <h1 className="font-display truncate text-base leading-none tracking-tight sm:text-lg">
+            Astrology Chatbot
+          </h1>
+        </div>
 
         <div className="ml-auto flex items-center">
           <ThemeToggle />
